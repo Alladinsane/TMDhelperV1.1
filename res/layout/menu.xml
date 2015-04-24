@@ -1,0 +1,69 @@
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+   		xmlns:tools="http://schemas.android.com/tools"
+    	android:layout_width="wrap_content"
+      	android:layout_height="wrap_content"
+      	android:orientation="vertical"
+   		android:background="@color/black" >
+
+    <RelativeLayout
+         android:layout_width="wrap_content"
+      	 android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/menu_title"
+            android:scaleType="fitStart"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/menu_title"
+            android:src="@drawable/menu_logo" />
+
+        <TextView
+            android:id="@+id/menu_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/menu_title"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/menu_title_size" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/menu_title"
+            android:layout_alignTop="@+id/menu_title"
+            android:scaleType="fitEnd"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/menu_logo" />
+        </RelativeLayout>
+        
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        
+        <ListView
+            android:id="@+id/menu_list"
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout="@+id/menu_title" >
+        </ListView>
+         <ImageView
+        android:id="@+id/bottom_logo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitEnd"
+        android:src="@drawable/pepsico" />
+        
+    </RelativeLayout>
+
+   
+
+</LinearLayout>

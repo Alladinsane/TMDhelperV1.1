@@ -1,0 +1,156 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    android:orientation="vertical">
+    
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="@string/tmd_heading"></TextView>
+    <TextView
+        android:id="@+id/TMDnumber"
+        android:layout_below="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        android:textSize="@dimen/tmd_header_size"
+        android:text="test string"></TextView>
+    
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_below="@+id/TMDnumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        android:text="@string/instructions"></TextView>
+
+   
+  <LinearLayout
+       android:id="@+id/tmd_layout"
+       android:layout_below="@+id/instructions"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:background="@color/blue" > 
+
+           <Button
+               android:id="@+id/button1"
+               style="?android:attr/buttonStyleSmall"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="@dimen/tmd_bottom_margin"
+               android:layout_marginLeft="@dimen/tmd_side_margin"
+               android:layout_marginRight="@dimen/tmd_side_margin"
+               android:layout_weight="1"
+               android:background="@color/white"
+               android:shadowColor="@color/white"
+    		   android:shadowDx="0.0"
+    		   android:shadowDy="0.0"
+    		   android:shadowRadius="2.0"
+               android:text="@string/default_entry" />
+      
+           <Button
+               android:id="@+id/button2"
+               style="?android:attr/buttonStyleSmall"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="@dimen/tmd_bottom_margin"
+               android:layout_marginLeft="@dimen/tmd_side_margin"
+               android:layout_marginRight="@dimen/tmd_side_margin"
+               android:layout_weight="1"
+               android:background="@color/white"
+               android:shadowColor="@color/white"
+    		   android:shadowDx="0.0"
+    		   android:shadowDy="0.0"
+    		   android:shadowRadius="2.0"
+               android:text="@string/default_entry" />
+       
+           <Button
+               android:id="@+id/button3"
+               style="?android:attr/buttonStyleSmall"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="@dimen/tmd_bottom_margin"
+               android:layout_marginLeft="@dimen/tmd_side_margin"
+               android:layout_marginRight="@dimen/tmd_side_margin"
+               android:layout_weight="1"
+               android:background="@color/white"
+               android:shadowColor="@color/white"
+    		   android:shadowDx="0.0"
+    		   android:shadowDy="0.0"
+    		   android:shadowRadius="2.0"
+               android:text="@string/default_entry"
+             />
+     
+           <Button
+               android:id="@+id/button4"
+               style="?android:attr/buttonStyleSmall"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="@dimen/tmd_bottom_margin"
+               android:layout_marginLeft="@dimen/tmd_side_margin"
+               android:layout_marginRight="@dimen/tmd_side_margin"
+               android:layout_weight="1"
+               android:background="@color/white"
+               android:shadowColor="@color/white"
+    		   android:shadowDx="0.0"
+    		   android:shadowDy="0.0"
+    		   android:shadowRadius="2.0"
+               android:text="@string/default_entry"
+               />
+       
+           <Button
+               android:id="@+id/button5"
+               style="?android:attr/buttonStyleSmall"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="@dimen/tmd_bottom_margin"
+               android:layout_marginLeft="@dimen/tmd_side_margin"
+               android:layout_marginRight="@dimen/tmd_side_margin"
+               android:layout_weight="1"
+               android:background="@color/white"
+               android:shadowColor="@color/white"
+    		   android:shadowDx="0.0"
+    		   android:shadowDy="0.0"
+    		   android:shadowRadius="2.0"
+               android:text="@string/default_entry"
+               />
+   <LinearLayout 
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+           <CheckBox
+               android:id="@+id/checkbox"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight=".25" />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight=".25"
+               android:text="@string/checkbox_label"
+               android:textColor="@color/white" />
+    </LinearLayout>
+           
+
+</LinearLayout>
+
+  <Button
+      android:id="@+id/next_button"
+      style="?android:attr/buttonStyleSmall"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@+id/instructions"
+      android:layout_alignParentRight="true"
+      android:background="@color/light_grey"
+      android:text="@string/next_button" />
+
+  
+</RelativeLayout>

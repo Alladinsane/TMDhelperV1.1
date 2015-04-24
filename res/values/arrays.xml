@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="brands">
+        <item>xxlLays</item>
+        <item>xlLays</item>
+        <item>Kettle</item>
+        <item>Doritos</item>
+        <item>Tostitos</item>
+        <item>FritosCheetos</item>
+    </array>
+    <array name="xxlLays">
+        <item>xxlClassic @color/yellow 9 18</item>
+        <item>xxlWavy @color/red 10 18</item>
+        <item>xxlSCO @color/green 10 18</item>
+        <item>xxlBBQ @color/black 10 18</item>
+    </array>
+    <array name="xlLays">
+        <item>xlClassic @color/yellow 12 24</item>
+        <item>xlWavy @color/red 12 24</item>  
+        <item>xlSCO @color/green 12 24</item>
+        <item>xlBBQ @color/black 12 24</item>
+        <item>xlLight @color/light_blue 12 24</item>
+        <item>xlWavLight @color/light_blue 12 24</item>
+        <item>xlCSC @color/orange 12 24</item>
+        <item>xlSV @color/dark_blue 12 24</item>  
+    </array>
+    <array name="Kettle">
+    	<item>OrigKett @color/dark_blue 14 24</item>
+    	<item>BBQKett @color/dark_brown 14 24</item>
+    	<item>SVKett @color/light_blue 14 24</item>
+    	<item>JalaKett @color/green 14 24</item>
+    	<item>SPKett @color/grey 14 24</item>
+    </array>
+    <array name="Doritos">
+        <item>Nacho @color/red 7 24</item>
+        <item>CRA @color/dark_blue 7 24</item>
+        <item>SpicyNacho @color/dark_red 7 24</item>
+        <item>SwChili @color/violet 7 24</item>
+        <item>Taco @color/orange 7 24</item>
+    </array>
+    <array name="Tostitos">
+        <item>RSTC @color/teal 5 18</item>
+        <item>Scoops @color/violet 7 24</item>
+        <item>Btsz @color/dark_blue 7 24</item>
+        <item>CrispyRnd @color/orange 6 24</item>
+        <item>Lime @color/green 5 18</item>
+    </array>
+    <array name="FritosCheetos">
+        <item>Puffs @color/teal 10 18</item>
+        <item>Crunchy @color/orange 10 30</item>
+        <item>Hot @color/red 10 30</item>
+        <item>Jalapeno @color/green 10 30</item>
+        <item>FritoReg @color/beige 10 30</item>
+        <item>FritoScoops @color/dark_blue 10 30</item>
+        <item>Chili @color/dark_brown 10 30</item>
+        <item>HnyBBQ @color/grey 10 30</item>
+    </array>
+</resources>

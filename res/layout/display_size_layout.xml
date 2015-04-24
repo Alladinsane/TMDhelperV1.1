@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    >  
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TableRow>
+    <TextView 
+        android:id="@+id/fullTMDprompt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fullTMD_prompt"
+        android:layout_weight="1"
+        />
+    <EditText 
+        android:id="@+id/fullTMD_view"
+        android:layout_toLeftOf="@+id/fullTMDprompt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:digits ="1234567890"
+        android:hint="enter number"
+        android:layout_weight="1"
+        />
+    </TableRow>
+    <TableRow>
+     <TextView 
+        android:id="@+id/lopro_prompt"
+        android:layout_below="@+id/fullTMDprompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lopro_prompt"
+        android:layout_weight="1"
+        />
+    <EditText 
+        android:id="@+id/lopro_view"
+        android:layout_toLeftOf="@+id/lopro_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:digits ="1234567890"
+        android:hint="enter number"
+        android:layout_weight="1"
+        
+        />
+    	</TableRow>
+
+</TableLayout>
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+    		<Button
+    		    android:id="@+id/next_button"
+    		    android:layout_width="wrap_content"
+    		    android:layout_height="wrap_content"
+    		   	android:layout_alignParentRight="true"
+    		    android:text="@string/next_button" />
+    
+    </RelativeLayout>
+</LinearLayout>
