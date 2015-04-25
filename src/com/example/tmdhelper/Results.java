@@ -34,8 +34,8 @@ public class Results extends MainActivity implements OnClickListener {
 		
 		myDatabaseAdapter=new MyDatabaseAdapter(this);
 		
-		products = loadItemArray();
-		
+		products = loadItemArray();//products ArrayList will now contain 
+		//the names of only those products user selected for use in this build
 		processRawData();
 	}
 	public void processRawData()
@@ -43,6 +43,10 @@ public class Results extends MainActivity implements OnClickListener {
 		ArrayList<String> allItems = myDatabaseAdapter.getAllItems();
 		ArrayList<String> itemTallies = new ArrayList<String>();
 		
+		//loop through the list of products, and check it against the user
+		//planogram items to see if it was used in this build. For each
+		//individual item name, count is used to add up how many shelves of that item
+		//exist in this build
 		for(int i=0; i<products.size(); i++)
 		{
 			int count=0;
@@ -63,6 +67,7 @@ public class Results extends MainActivity implements OnClickListener {
 		}
 		for(int i=0; i<itemTallies.size(); i++)
 		{
+			
 			String item = itemTallies.get(i);
 			StringTokenizer st = new StringTokenizer(item);
 			int tally = 0;
@@ -73,11 +78,11 @@ public class Results extends MainActivity implements OnClickListener {
 				tally = Integer.parseInt(st.nextToken());
 			}
 			int total = calculateCaseCount(itemName, tally);
-			addToList(itemName, total);
+			addToList(itemName, total);//calls a method to add the final string to an array
+			//that will be used to create the Results ListView
 		}
-		itemTallies.clear();
-		allItems.clear();
-		displayResults();
+		allItems.clear();//this array is no longer needed and is reset for next build
+		displayResults();//method that creates the ListView
 	}
 	public int calculateCaseCount(String itemName, int shelves)
 	{
@@ -90,16 +95,17 @@ public class Results extends MainActivity implements OnClickListener {
 		StringTokenizer st = new StringTokenizer(productData);
 		while(st.hasMoreTokens())
 		{
-			//unpack info from array store product data to UserSelections
+			//unpack product data from array 
 			name = st.nextToken();
 			color = st.nextToken();
 			caseCount = Integer.parseInt(st.nextToken());
 			shelfCount = Integer.parseInt(st.nextToken());	
 		}
-		int eaches = shelfCount * shelves;
+		int eaches = shelfCount * shelves;//the total number of shelves to be filled by this 
+		//item multiplied by the number of bags of this item required to fill a shelf
 		int mod = 0;
-		if(eaches%caseCount>0)
-			mod = 1;
+		if(eaches%caseCount>0)//if total needed bags is not evenly divisible by caseCount
+			mod = 1;          //an extra case will be needed to completely fill
 		totalCases = eaches/caseCount + mod;
 		mod = 0;
 		return totalCases;
@@ -107,13 +113,13 @@ public class Results extends MainActivity implements OnClickListener {
 	public ArrayList<String> loadItemArray()
 	{
 		ArrayList<String> brands = getIntent().getStringArrayListExtra("brands");
-		Log.d("Mine", "ItemSelector brands = " + brands);
 		ArrayList<String> itemArray = new ArrayList<String>();
-		
+		//pulls out the name of each item, and adds it to an itemArray
 		for(int i=0; i<brands.size(); i++)
 		{
 			String myBrand = brands.get(i).toString();
 			Log.d("Mine", "myBrand = " +myBrand);
+			//using the product line's name to get the the matching product list from resources
 			int id = this.getResources().getIdentifier(myBrand, "array", this.getPackageName());
 			String[] tempArray = getResources().getStringArray(id);
 			Log.d("Mine", "tempArray = " + tempArray);
@@ -132,11 +138,14 @@ public class Results extends MainActivity implements OnClickListener {
 	}
 	public void addToList(String itemName, int total)
 	{
+		//the name and total count of each item in this build is now used
+		//to create a String which communicates the results to the user
 		String phrase = itemName + ": " + total + " cases.";
 		results.add(phrase);
 	}
 	public void displayResults()
 	{
+		//this method creates the ListView that contains actual results
 		ListView selectItem = (ListView)findViewById(R.id.results_view);
 
 
@@ -158,13 +167,16 @@ public class Results extends MainActivity implements OnClickListener {
 		
 		if(index== R.id.start_over)
 		{
+			//make sure all planograms and arrays are cleared and return to main menu
 			myDatabaseAdapter.deleteTMDdatabase();
 			results.clear();
 			products.clear();
 			startActivity(new Intent(Results.this, TMDmenu.class));
 			finish();
 		}
-		/*else if(index== R.id.exit)
+		/*decided not to implement exit button at this time
+		 * 
+		 * else if(index== R.id.exit)
 		{
 			myDatabaseAdapter.deleteTMDdatabase();
 			results.clear();

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- When adding new items to these arrays, Database Version in MyDatabaseAdapter
+    must be incremented before new items will be loaded -->
     <array name="brands">
         <item>xxlLays</item>
         <item>xlLays</item>

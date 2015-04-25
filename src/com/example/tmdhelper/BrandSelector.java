@@ -37,7 +37,7 @@ public class BrandSelector extends MainActivity implements OnClickListener{
 				this, 
 				android.R.layout.simple_list_item_multiple_choice,
 				(getResources().getStringArray(R.array.brands)));//Brand names for 
-		//the ListView are loaded
+		//the ListView is populated
 		//from an array stored in 
 		//in resources
 		selectBrand.setItemsCanFocus(false);

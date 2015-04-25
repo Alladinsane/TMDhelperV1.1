@@ -41,6 +41,7 @@ public class ItemSelector extends MainActivity {
 		selectItem.setAdapter(adapt);
 		
 		selectItem.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+			//the user has selected an item from the ListView
 			public void onItemClick(AdapterView<?> parent, View itemClicked,
 					int position, long id) {
 				TextView textview = (TextView) itemClicked;
@@ -55,6 +56,7 @@ public class ItemSelector extends MainActivity {
 	}
 	public ArrayList<String> loadItemArray()
 	{
+		//generates a ListView from the array of brands selected for use in this build
 		ArrayList<String> brands = getIntent().getStringArrayListExtra("brands");
 		Log.d("Mine", "ItemSelector brands = " + brands);
 		ArrayList<String> itemArray = new ArrayList<String>();

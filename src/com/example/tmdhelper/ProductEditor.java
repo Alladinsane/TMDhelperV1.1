@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.content.SharedPreferences;
-
+//this class will be implemented as part of a feature in a future version
 public class ProductEditor extends MainActivity {
 
 	@Override

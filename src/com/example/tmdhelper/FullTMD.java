@@ -26,6 +26,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	SharedPreferences tmdPrefs;
 	ArrayList<String> brands = new ArrayList<String>();
 	String[] planogram = new String[]{"empty", "empty", "empty", "empty", "empty"};
+	//our planogram is instantiated with all the shelves empty
 	MyDatabaseAdapter myDatabaseAdapter;
 	
 	
@@ -48,10 +49,11 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		}
 		if(loproTMD==0 && tmdTotal == 1)
 		{
+			//we are only building one TMD, so our Next button is set to Finish
 			Button b = (Button) findViewById(R.id.next_button);
 			b.setText("Finish");
 		}
-
+		//each shelf on the TMD is represented in the layout as a button
 		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5,
 				R.id.next_button, R.id.checkbox};
 		for (int i=0; i <resources.length; i++)
@@ -66,6 +68,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	
 	public void setHeading(int i)
 	{
+		//adds the tmd number to the header
 		TextView header = (TextView) findViewById(R.id.TMDnumber);
 		String heading = "Full TMD #" + i + " of " + tmdTotal;
 		header.setText(heading);
@@ -77,6 +80,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5};
         for (int i=0; i <resources.length; i++)
         {
+        	//resets each button to "empty"
         	Button b = (Button)findViewById(resources[i]);
         	b.setText("empty");
         	b.setBackgroundColor(getResources().getColor(R.color.white));
@@ -89,6 +93,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	}
 	public boolean checkForEmpty()
 	{
+		//checks to see if any shelves have been left empty
 		for(int i=0; i<planogram.length; i++)
 		{
 			if(planogram[i].equals("empty"))
@@ -126,6 +131,9 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		{
 			if(checkForEmpty())
 			{
+				//if some shelves are empty, and alert gives the user the chance
+				//to cancel "Next" and go back to the planogram, or leave them
+				//empty and continue
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 				builder1.setMessage("Some shelves will be left empty.");
 				builder1.setCancelable(true);
@@ -148,10 +156,12 @@ public class FullTMD extends MainActivity implements OnClickListener{
 				alert11.show();
 			}
 			else
+				//otherwise, proceed with usual "Next" button action
 				nextButtonAction();
 		}
-		else
+		else//all other onClicks are shelf buttons
 		{
+			//calls the activity that allows the user to select an item for this shelf
 			buttonID=index;
 			Intent intent = (new Intent(FullTMD.this, ItemSelector.class));
 			intent.putExtra("brands", brands);
@@ -162,24 +172,31 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	protected void nextButtonAction()
 	{
 		storePlanogram();
-		counter++;
+		//the current planogram is saved to the database
+		counter++;//tmd counter is incremented
 		if(counter<tmdTotal)
-			resetScreen();
+			resetScreen();//if there are remaining tmds in this build, the planogram is reset
+			//for the next tower
 		else if(counter==tmdTotal)
 		{
+			//if this our last full TMD and no low profile tmd's have been selected for this
+			//build
 			if(loproTMD==0)
 			{
+				//our "Next" button changes to a "finish" button
 				Button b = (Button) findViewById(R.id.next_button);
 				b.setText("Finish");
 				resetScreen();
 			}
 			else
+				//otherwise, "Next" button is left as is and planogram is reset
 				resetScreen();
 		}
 		else
 		{
 			if(loproTMD>0)
 			{
+				//there are no more Full TMDs in this build, but Low Profile TMDs were selected
 				Intent intent = new Intent(FullTMD.this, LoproTMD.class);
 				intent.putExtra("brands", brands);
 				startActivity(intent);
@@ -188,6 +205,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			}
 			else
 			{
+				//this build is done, and the results activity is called
 				Intent intent = new Intent(FullTMD.this, Results.class);
 				intent.putExtra("brands", brands);
 				startActivity(intent);
@@ -199,6 +217,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	}
 	protected void processResult(String item)
 	{
+		//method for handling user selected item for shelf
 		String productData = myDatabaseAdapter.getProductData(item);
 		StringTokenizer st = new StringTokenizer(productData);
 		while(st.hasMoreTokens())
@@ -211,7 +230,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			
 			int tempID = getResources().getIdentifier(color, color, getPackageName());
 			int thisColor= getResources().getColor(tempID);
-			
+			//change shelf Button text to item name, and background color to item color
 			Button b = (Button) findViewById(buttonID);
 			b.setText(name);
 			b.setBackgroundColor(thisColor);
@@ -238,18 +257,23 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			}
 			if(shelf>=0)
 			{
+				//user has made a selection, and it is temporarily stored to current
+				//planogram ArrayList
 				saveToPlanogram(shelf, name);
 			}
 			else
+				//We should never get here
 				Log.d("Mine", "no shelf number was recorded");
 		}
 	}
 	protected void saveToPlanogram(int shelf, String brand)
 	{
+		//stores this shelf to the overall planogram for this tmd
 		planogram[shelf] = brand;
 	}
 	protected void storePlanogram()
 	{
+		//saves this tmd's final planogram to the database
 		String name = "fullTMD" + counter;
 		String shelf1=planogram[0];
 		String shelf2=planogram[1];
@@ -269,7 +293,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		}
 	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+		//should be returning with the user selected item for this shelf
 		if (requestCode == MAKE_PRODUCT_SELECTION) {
 			if(resultCode == RESULT_OK){
 	            String result=data.getStringExtra("result");

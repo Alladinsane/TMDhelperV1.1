@@ -24,6 +24,7 @@ public class MyDatabaseAdapter {
 	public long insertDataProducts(String item, String color, 
 			int caseCount, int shelfCount)
 	{
+		//adds the product and it's values to the database
 		SQLiteDatabase db = myHelper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(MySQLiteOpenHelper.NAME, item);
@@ -38,6 +39,7 @@ public class MyDatabaseAdapter {
 	public long insertDataTMDs(String name, String shelf1, String shelf2, String shelf3,
 			String shelf4, String shelf5)
 	{
+		//stores the planogram for an individual TMD 
 		SQLiteDatabase db = myHelper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(MySQLiteOpenHelper.NAME, name);
@@ -53,6 +55,7 @@ public class MyDatabaseAdapter {
 	}
 	public String getProductData(String name)
 	{
+		//returns the product information for the given product name
 		SQLiteDatabase db = myHelper.getReadableDatabase();
 		String[] columns = {MySQLiteOpenHelper.NAME, 
 				MySQLiteOpenHelper.COLOR, MySQLiteOpenHelper.CASE_COUNT, 
@@ -75,6 +78,8 @@ public class MyDatabaseAdapter {
 	}
 	public String getPlanogramData(String name)
 	{
+		//method for retrieving stored planogram data. Needed for a not yet
+		//implemented feature
 		SQLiteDatabase db = myHelper.getReadableDatabase();
 		String[] columns = {MySQLiteOpenHelper.NAME, 
 				MySQLiteOpenHelper.SHELF_1, MySQLiteOpenHelper.SHELF_2, 
@@ -104,6 +109,8 @@ public class MyDatabaseAdapter {
 		return buffer.toString();
 	}
 	public ArrayList<String> getAllItems() {
+		//method will retrieve each line from the database, break it down and
+		//return each individual string from each column as an ArrayList
 		ArrayList<String> allItems= new ArrayList<String>();
 		SQLiteDatabase db = myHelper.getReadableDatabase();
 		String[] columns = {MySQLiteOpenHelper.NAME, 
@@ -140,6 +147,7 @@ public class MyDatabaseAdapter {
 	}
 	
 	static class MySQLiteOpenHelper extends SQLiteOpenHelper{
+		//the actual SQLiteOpenHelper is an inner class to protect the variables
 		private static final String DATABASE_NAME = "MyDatabase";
 		private static final String TABLE_NAME_PRODUCTS = "Products_table";
 		private static final String TABLE_NAME_TMDS = "TMDs_Table";
