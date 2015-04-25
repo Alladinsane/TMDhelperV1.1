@@ -9,6 +9,7 @@ int anim fade_in2 0x7f040007
 int array Doritos 0x7f0c0004
 int array FritosCheetos 0x7f0c0006
 int array Kettle 0x7f0c0003
+int array PartySize 0x7f0c0007
 int array Tostitos 0x7f0c0005
 int array brands 0x7f0c0000
 int array xlLays 0x7f0c0002
@@ -311,6 +312,7 @@ int dimen menu_item_size 0x7f08002e
 int dimen menu_title_size 0x7f08002d
 int dimen tmd_bottom_margin 0x7f080030
 int dimen tmd_header_size 0x7f08002f
+int dimen tmd_layout_margin 0x7f080032
 int dimen tmd_side_margin 0x7f080031
 int drawable abc_ab_share_pack_holo_dark 0x7f020000
 int drawable abc_ab_share_pack_holo_light 0x7f020001

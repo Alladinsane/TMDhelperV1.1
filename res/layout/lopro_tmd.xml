@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@color/white"
     android:orientation="vertical">
     
     <TextView
@@ -14,20 +14,20 @@
     <TextView
         android:id="@+id/TMDnumber"
         android:layout_below="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
-        android:textColor="@color/white"
+        android:background="@color/yellow"
+        android:textColor="@color/black"
         android:textSize="@dimen/tmd_header_size"
         android:text="test string"></TextView>
     
     <TextView
         android:id="@+id/instructions"
         android:layout_below="@+id/TMDnumber"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
-        android:textColor="@color/white"
+        android:background="@color/yellow"
+        android:textColor="@color/black"
         android:text="@string/instructions"></TextView>
 
    
@@ -35,6 +35,8 @@
        android:layout_below="@+id/instructions"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
+       android:layout_marginLeft="@dimen/tmd_layout_margin"
+       android:layout_marginRight="@dimen/tmd_layout_margin"
        android:orientation="vertical"
        android:background="@color/blue" > 
 	

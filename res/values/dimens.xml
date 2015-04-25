@@ -6,7 +6,8 @@
 	<dimen name="menu_title_size">32dp</dimen>
 	<dimen name="menu_item_size">40dp</dimen>
 	<dimen name="tmd_header_size">28dp</dimen>
-	<dimen name="tmd_bottom_margin">10dp</dimen>
-	<dimen name="tmd_side_margin">40dp</dimen>
+	<dimen name="tmd_bottom_margin">5dp</dimen>
+	<dimen name="tmd_side_margin">25dp</dimen>
+	<dimen name="tmd_layout_margin">30dp</dimen>
 	
 </resources>

@@ -17,7 +17,7 @@
     <string name="default_entry">empty</string>
     <string name="tmd_heading">Create Your Planogram</string>
     <string name="instructions">Select a shelf to set product:</string>
-    <string name="checkbox_label">apply this planogram to multiple TMDs</string>
+    <string name="checkbox_label">apply planogram to multiple TMDs</string>
     <string name="results_title">Order For This Build:</string>
     <string name="start_over_button">Main Menu</string>
     <string name="exit_button">Exit</string>

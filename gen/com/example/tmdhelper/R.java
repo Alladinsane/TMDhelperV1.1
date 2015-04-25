@@ -22,7 +22,11 @@ public final class R {
         public static final int Doritos=0x7f0c0004;
         public static final int FritosCheetos=0x7f0c0006;
         public static final int Kettle=0x7f0c0003;
+        public static final int PartySize=0x7f0c0007;
         public static final int Tostitos=0x7f0c0005;
+        /**  When adding new items to these arrays, Database Version in MyDatabaseAdapter
+    must be incremented before new items will be loaded 
+         */
         public static final int brands=0x7f0c0000;
         public static final int xlLays=0x7f0c0002;
         public static final int xxlLays=0x7f0c0001;
@@ -1610,6 +1614,7 @@ containing a value of this type.
         public static final int menu_title_size=0x7f08002d;
         public static final int tmd_bottom_margin=0x7f080030;
         public static final int tmd_header_size=0x7f08002f;
+        public static final int tmd_layout_margin=0x7f080032;
         public static final int tmd_side_margin=0x7f080031;
     }
     public static final class drawable {

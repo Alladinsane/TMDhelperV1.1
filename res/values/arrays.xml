@@ -9,6 +9,7 @@
         <item>Doritos</item>
         <item>Tostitos</item>
         <item>FritosCheetos</item>
+        <item>PartySize</item>
     </array>
     <array name="xxlLays">
         <item>xxlClassic @color/yellow 9 18</item>
@@ -57,4 +58,18 @@
         <item>Chili @color/dark_brown 10 30</item>
         <item>HnyBBQ @color/grey 10 30</item>
     </array>
+    <array name = "PartySize">
+        <item>psRSTC @color/teal 4 18</item>
+        <item>psScoop @color/violet 4 18</item>
+        <item>psNacho @color/red 5 18</item>
+        <item>psCRA @color/dark_blue 5 18</item>
+        <item>psLays @color/yellow 6 12</item>
+        <item>psWavy @color/dark_red 6 12</item>
+        <item>psSCO @color/green 8 12</item>
+        <item>psBBQ @color/black 8 12</item>
+        <item>psRuffles @color/dark_blue 8 12</item>
+        <item>psCSC @color/orange 8 12</item>
+        <item>psFrito @color/beige 6 24</item>
+        <item>psCheeto @color/orange 6 24</item>
+        </array>
 </resources>
