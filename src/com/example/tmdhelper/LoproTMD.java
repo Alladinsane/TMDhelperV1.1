@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class LoproTMD extends MainActivity implements OnClickListener{
@@ -24,9 +25,10 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 	MyDatabaseAdapter myDatabaseAdapter;
 	int buttonID;
 	static final int MAKE_PRODUCT_SELECTION=1;
+	static final int MULTIPLE_TMDS_PICKER=2;
 	ArrayList<String> brands = new ArrayList<String>();
 	String[] planogram = new String[]{"empty", "empty", "empty", "empty"};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +36,7 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		tmdPrefs = getSharedPreferences(TMD_PREFERENCES, MODE_PRIVATE);
 		myDatabaseAdapter = new MyDatabaseAdapter(this);brands = getIntent().getStringArrayListExtra("brands");
 		brands = getIntent().getStringArrayListExtra("brands");
-		
+
 		if(tmdPrefs.contains("loproTMD"))
 		{
 			tmdTotal = tmdPrefs.getInt("loproTMD", 0);
@@ -45,13 +47,13 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 			b.setText("Finish");
 		}
 		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4,
-        		R.id.next_button, R.id.checkbox};
-        for (int i=0; i <resources.length; i++)
-        {
-        	Button b = (Button)findViewById(resources[i]);
-        	b.setOnClickListener(this);
-        }
-        setHeading(counter);
+				R.id.next_button, R.id.checkbox};
+		for (int i=0; i <resources.length; i++)
+		{
+			Button b = (Button)findViewById(resources[i]);
+			b.setOnClickListener(this);
+		}
+		setHeading(counter);
 	}
 
 	public void setHeading(int i)
@@ -64,13 +66,13 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 	{
 		setHeading(counter);
 		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4};
-        for (int i=0; i <resources.length; i++)
-        {
-        	Button b = (Button)findViewById(resources[i]);
-        	b.setText("empty");
-        	b.setBackgroundColor(getResources().getColor(R.color.white));
-        }
-		
+		for (int i=0; i <resources.length; i++)
+		{
+			Button b = (Button)findViewById(resources[i]);
+			b.setText("empty");
+			b.setBackgroundColor(getResources().getColor(R.color.white));
+		}
+
 	}
 	protected void processResult(String item)
 	{
@@ -83,14 +85,14 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 			String color = st.nextToken();
 			int caseCount = Integer.parseInt(st.nextToken());
 			int shelfCount = Integer.parseInt(st.nextToken());
-			
+
 			int tempID = getResources().getIdentifier(color, color, getPackageName());
 			int thisColor= getResources().getColor(tempID);
-			
+
 			Button b = (Button) findViewById(buttonID);
 			b.setText(name);
 			b.setBackgroundColor(thisColor);
-			
+
 
 			int shelf=-1;
 
@@ -129,7 +131,7 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		String shelf5="no_shelf";
 
 		long id = myDatabaseAdapter.insertDataTMDs(name, shelf1, shelf2, shelf3, shelf4, shelf5);
-		
+
 		if(id<0)
 		{
 			Log.d("Mine", "Insert was unsuccessful");
@@ -139,7 +141,7 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 			Log.d("Mine", "Successfully added " + name);
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -201,6 +203,12 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 	}
 	protected void nextButtonAction()
 	{
+		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+		if(cb.isChecked()){
+			Intent intent = new Intent(LoproTMD.this, NumberPickerActivity.class);
+			intent.putExtra("maxValue", (tmdTotal-counter)+1);
+			startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
+		}
 		storePlanogram();
 		counter++;
 		for(int i=0; i<planogram.length; i++)
@@ -233,17 +241,31 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 			}
 		}
 		return false;
-}
+	}
+	public void applyMultiplePlanograms(int multiple)
+	{
+
+	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-	    if (requestCode == MAKE_PRODUCT_SELECTION) {
-	        if(resultCode == RESULT_OK){
-	            String result=data.getStringExtra("result");
-	            processResult(result);
-	        }
-	        if (resultCode == RESULT_CANCELED) {
-	            //Write your code if there's no result
-	        }
-	    }
-}
+		if (requestCode == MAKE_PRODUCT_SELECTION) {
+			if(resultCode == RESULT_OK){
+				String result=data.getStringExtra("result");
+				processResult(result);
+			}
+			if (resultCode == RESULT_CANCELED) {
+				//Write your code if there's no result
+			}
+		}
+		else if (requestCode == MULTIPLE_TMDS_PICKER)
+		{
+			if(resultCode == RESULT_OK){
+				int TMDmultiple = getIntent().getIntExtra("result", 1);
+				applyMultiplePlanograms(TMDmultiple);
+			}
+			if (resultCode == RESULT_CANCELED) {
+				//Write your code if there's no result
+			}
+		}
+	}
 }

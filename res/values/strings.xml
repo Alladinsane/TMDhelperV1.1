@@ -23,4 +23,6 @@
     <string name="exit_button">Exit</string>
     <string name="ok">OK</string>
 	<string name="cancel">Cancel</string>
+	<string name="title_activity_number_picker">Apply To Multiple TMDs</string>
+	<string name="number_picker_text">Select total number of TMDs that will share this planogram:</string>
 </resources>

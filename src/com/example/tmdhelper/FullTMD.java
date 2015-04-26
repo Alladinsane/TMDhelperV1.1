@@ -14,10 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class FullTMD extends MainActivity implements OnClickListener{
 	static final int MAKE_PRODUCT_SELECTION=1;
+	static final int MULTIPLE_TMDS_PICKER=2;
 	public static final String TMD_PREFERENCES = "tmdPrefs";
 	int tmdTotal;
 	int loproTMD;
@@ -159,6 +161,10 @@ public class FullTMD extends MainActivity implements OnClickListener{
 				//otherwise, proceed with usual "Next" button action
 				nextButtonAction();
 		}
+		else if(index==R.id.checkbox)
+		{
+			return;
+		}
 		else//all other onClicks are shelf buttons
 		{
 			//calls the activity that allows the user to select an item for this shelf
@@ -171,6 +177,12 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	}
 	protected void nextButtonAction()
 	{
+		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+		if(cb.isChecked()){
+			Intent intent = new Intent(FullTMD.this, NumberPickerActivity.class);
+			intent.putExtra("maxValue", (tmdTotal-counter)+1);
+			startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
+		}
 		storePlanogram();
 		//the current planogram is saved to the database
 		counter++;//tmd counter is incremented
@@ -292,6 +304,10 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			Log.d("Mine", "Successfully added " + name);
 		}
 	}
+	public void applyMultiplePlanograms(int multiple)
+	{
+		
+	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//should be returning with the user selected item for this shelf
 		if (requestCode == MAKE_PRODUCT_SELECTION) {
@@ -303,5 +319,16 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	            //Write your code if there's no result
 	        }
 	    }
+		else if (requestCode == MULTIPLE_TMDS_PICKER)
+		{
+			if(resultCode == RESULT_OK){
+			int TMDmultiple = getIntent().getIntExtra("result", 1);
+			applyMultiplePlanograms(TMDmultiple);
+			}
+			if (resultCode == RESULT_CANCELED) {
+	            //Write your code if there's no result
+	        }
+			
+		}
 }
 }
