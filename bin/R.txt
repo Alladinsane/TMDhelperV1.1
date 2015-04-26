@@ -367,9 +367,10 @@ int drawable abc_textfield_search_default_mtrl_alpha 0x7f020031
 int drawable abc_textfield_search_material 0x7f020032
 int drawable fritolay2 0x7f020033
 int drawable ic_launcher 0x7f020034
-int drawable menu_logo 0x7f020035
-int drawable pepsico 0x7f020036
-int drawable rectangle 0x7f020037
+int drawable lays 0x7f020035
+int drawable menu_logo 0x7f020036
+int drawable pepsico 0x7f020037
+int drawable rectangle 0x7f020038
 int id TMDnumber 0x7f050047
 int id action_bar 0x7f050031
 int id action_bar_activity_content 0x7f050018

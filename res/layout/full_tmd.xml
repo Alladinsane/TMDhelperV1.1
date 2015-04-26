@@ -55,7 +55,7 @@
                android:shadowColor="@color/white"
     		   android:shadowDx="0.0"
     		   android:shadowDy="0.0"
-    		   android:shadowRadius="2.0"
+    		   android:shadowRadius="3.0"
                android:text="@string/default_entry" />
       
            <Button
@@ -72,7 +72,7 @@
                android:shadowColor="@color/white"
     		   android:shadowDx="0.0"
     		   android:shadowDy="0.0"
-    		   android:shadowRadius="2.0"
+    		   android:shadowRadius="3.0"
                android:text="@string/default_entry" />
        
            <Button
@@ -89,7 +89,7 @@
                android:shadowColor="@color/white"
     		   android:shadowDx="0.0"
     		   android:shadowDy="0.0"
-    		   android:shadowRadius="2.0"
+    		   android:shadowRadius="3.0"
                android:text="@string/default_entry"
              />
      
@@ -107,7 +107,7 @@
                android:shadowColor="@color/white"
     		   android:shadowDx="0.0"
     		   android:shadowDy="0.0"
-    		   android:shadowRadius="2.0"
+    		   android:shadowRadius="3.0"
                android:text="@string/default_entry"
                />
        
@@ -125,7 +125,7 @@
                android:shadowColor="@color/white"
     		   android:shadowDx="0.0"
     		   android:shadowDy="0.0"
-    		   android:shadowRadius="2.0"
+    		   android:shadowRadius="3.0"
                android:text="@string/default_entry"
                />
          

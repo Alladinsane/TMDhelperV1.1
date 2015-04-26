@@ -1671,9 +1671,10 @@ containing a value of this type.
         public static final int abc_textfield_search_material=0x7f020032;
         public static final int fritolay2=0x7f020033;
         public static final int ic_launcher=0x7f020034;
-        public static final int menu_logo=0x7f020035;
-        public static final int pepsico=0x7f020036;
-        public static final int rectangle=0x7f020037;
+        public static final int lays=0x7f020035;
+        public static final int menu_logo=0x7f020036;
+        public static final int pepsico=0x7f020037;
+        public static final int rectangle=0x7f020038;
     }
     public static final class id {
         public static final int TMDnumber=0x7f050047;
