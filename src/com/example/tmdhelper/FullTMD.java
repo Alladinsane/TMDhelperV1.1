@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +27,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	int loproTMD;
 	int counter=1;
 	int buttonID;
+	int multiple;
 	SharedPreferences tmdPrefs;
 	ArrayList<String> brands = new ArrayList<String>();
 	String[] planogram = new String[]{"empty", "empty", "empty", "empty", "empty"};
@@ -233,11 +236,10 @@ public class FullTMD extends MainActivity implements OnClickListener{
 				intent.putExtra("brands", brands);
 				startActivity(intent);
 				finish();
-				
 			}
 		}
+		}
 	
-	}
 	protected void processResult(String item)
 	{
 		//method for handling user selected item for shelf
@@ -321,20 +323,6 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			Log.d("Mine", "Successfully added " + name);
 		}
 	}
-	public void applyMultiplePlanograms(int multiple)
-	{
-		Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
-		for(int i=1; i<multiple; i++)
-		{
-			storePlanogram();
-			counter++;
-		}
-		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
-		if(cb.isChecked()){
-            cb.toggle();
-        }
-		nextButtonAction();
-	}
 	public boolean boxIsChecked()
 	{
 		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
@@ -361,8 +349,12 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		{
 			Log.d("Mine", "RequestCode properly identified");
 			if(resultCode == RESULT_OK){
-			int TMDmultiple = data.getIntExtra("result", 1);
-			applyMultiplePlanograms(TMDmultiple);
+			multiple = data.getIntExtra("result", 1);
+			CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+			if(cb.isChecked()){
+	            cb.toggle();}
+			new MultipleTMD().execute();
+			
 			}
 			if (resultCode == RESULT_CANCELED) {
 				Log.d("Mine", "There was no result");
@@ -370,5 +362,40 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	        }
 			
 		}
+}
+
+private class MultipleTMD extends AsyncTask <Void, Void, String>
+{
+    private ProgressDialog dialog;
+
+    @Override
+    protected void onPreExecute()
+    {
+        dialog = ProgressDialog.show(
+            FullTMD.this,
+            "Filling Multiple Towers",
+            "Please wait...", 
+            true);
+    }
+
+    @Override
+    protected String doInBackground(Void... params)
+    {
+    	Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
+		for(int i=1; i<multiple; i++)
+		{
+			storePlanogram();
+			counter++;
+		}
+        
+		return "";
+    }
+
+    @Override
+    protected void onPostExecute(String result)
+    {
+    	nextButtonAction();
+        dialog.dismiss();
+    }
 }
 }

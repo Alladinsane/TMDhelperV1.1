@@ -2,11 +2,12 @@ package com.example.tmdhelper;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 public class LoproTMD extends MainActivity implements OnClickListener{
 	int tmdTotal;
 	int counter=1;
+	int multiple;
 	public static final String TMD_PREFERENCES = "tmdPrefs";
 	SharedPreferences tmdPrefs;
 	MyDatabaseAdapter myDatabaseAdapter;
@@ -258,20 +260,7 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		}
 		return false;
 	}
-	public void applyMultiplePlanograms(int multiple)
-	{
-		Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
-		for(int i=1; i<multiple; i++)
-		{
-			storePlanogram();
-			counter++;
-		}
-		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
-		if(cb.isChecked()){
-            cb.toggle();
-        }
-		nextButtonAction();
-	}
+	
 	public boolean boxIsChecked()
 	{
 		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
@@ -297,8 +286,11 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		{
 			Log.d("Mine", "RequestCode properly identified");
 			if(resultCode == RESULT_OK){
-			int TMDmultiple = data.getIntExtra("result", 1);
-			applyMultiplePlanograms(TMDmultiple);
+			multiple = data.getIntExtra("result", 1);
+			CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+			if(cb.isChecked()){
+	            cb.toggle();}
+			new MultipleTMD().execute();
 			}
 			if (resultCode == RESULT_CANCELED) {
 				Log.d("Mine", "There was no result");
@@ -307,4 +299,39 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 			
 		}
 	}
+
+private class MultipleTMD extends AsyncTask <Void, Void, String>
+{
+    private ProgressDialog dialog;
+
+    @Override
+    protected void onPreExecute()
+    {
+        dialog = ProgressDialog.show(
+            LoproTMD.this,
+            "Filling Multiple Towers",
+            "Please wait...", 
+            true);
+    }
+
+    @Override
+    protected String doInBackground(Void... params)
+    {
+    	Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
+		for(int i=1; i<multiple; i++)
+		{
+			storePlanogram();
+			counter++;
+		}
+        
+		return "";
+    }
+
+    @Override
+    protected void onPostExecute(String result)
+    {
+    	nextButtonAction();
+        dialog.dismiss();
+    }
+}
 }
