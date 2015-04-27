@@ -5,7 +5,6 @@ package com.example.tmdhelper;
 import java.util.StringTokenizer;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.example.tmdhelper.MyDatabaseAdapter.MySQLiteOpenHelper;
 
 public class TMDmenu extends MainActivity {
 	
@@ -41,8 +38,6 @@ public class TMDmenu extends MainActivity {
 		ArrayAdapter<String> adapt = new ArrayAdapter<String>(this, 
 				R.layout.menu_item, items);
 		menuList.setAdapter(adapt);
-		
-		DataLoader();
 
 		menuList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 			public void onItemClick(AdapterView<?> parent, View itemClicked,
@@ -85,58 +80,5 @@ public class TMDmenu extends MainActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	public void DataLoader()
-	{
-		String[] brands = getResources().getStringArray(R.array.brands);
-		for(int i=0; i<brands.length; i++)
-		{
-			String tempName = brands[i];
-			int tempID = getResources().getIdentifier(tempName, "array",
-					this.getPackageName());
-			String[] product = getResources().getStringArray(tempID);
-			
-			//"Empty" should be the first option no matter what brand our user selects
-			String empty = "empty";
-			String emptyColor = "@color/white";
-			int emptyCount = 0;
-			int emptyShelf = 0;
-			
-			long emptyId = myDatabaseAdapter.insertDataProducts(empty, emptyColor, emptyCount, emptyShelf);
-			
-			if(emptyId<0)
-			{
-				Log.d("Mine", "Insert was unsuccessful");
-			}
-			else
-			{
-				Log.d("Mine", "Successfully added " + empty);
-			}
-			for(int j=0; j<product.length; j++)
-			{
-				String s = product[j];
-				StringTokenizer st = new StringTokenizer(s);
-				while(st.hasMoreTokens())
-				{
-					//unpack info from array store product data 
-					String name = st.nextToken();
-					String color = st.nextToken();
-					int caseCount = Integer.parseInt(st.nextToken());
-					int shelfCount = Integer.parseInt(st.nextToken());
-					
-					long id = myDatabaseAdapter.insertDataProducts(name, color, caseCount, shelfCount);
-					
-					if(id<0)
-					{
-						Log.d("Mine", "Insert was unsuccessful");
-					}
-					else
-					{
-						Log.d("Mine", "Successfully added " + name);
-					}
-				}
-				continue;
-			}
-			continue;
-		}
-	}
+	
 }

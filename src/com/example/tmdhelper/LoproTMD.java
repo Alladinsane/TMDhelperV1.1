@@ -16,7 +16,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
+/*This class functions in the same way as FullTMD, except that LoproTMDs have only 4 shelves
+ * 
+ */
 public class LoproTMD extends MainActivity implements OnClickListener{
 	int tmdTotal;
 	int counter=1;
