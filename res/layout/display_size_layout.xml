@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:digits ="1234567890"
+        android:maxLength="2"
         android:hint="enter number"
         android:layout_weight="1"
         />
@@ -44,6 +45,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:digits ="1234567890"
+        android:maxLength="2"
         android:hint="enter number"
         android:layout_weight="1"
         
