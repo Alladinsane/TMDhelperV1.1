@@ -13,7 +13,7 @@ public class NumberPickerActivity extends MainActivity implements OnClickListene
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
-
+	  Log.d("Mine", "NumberPicker Oncreate");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.number_picker);
     np = (android.widget.NumberPicker)findViewById(R.id.number_picker);
@@ -53,6 +53,8 @@ public void onClick(View v) {
 	if(index==R.id.apply_button)
 	{
 		int value = np.getValue();
+		
+		Log.d("Mine", "value = " +value);
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra("result", value);
 		setResult(RESULT_OK, returnIntent);

@@ -176,7 +176,15 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
-						nextButtonAction();
+						if(boxIsChecked())
+						{
+							Log.d("Mine", "CheckBox is checked");
+							Intent intent = new Intent(LoproTMD.this, NumberPickerActivity.class);
+							intent.putExtra("maxValue", (tmdTotal-counter)+1);
+							startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
+						}
+						else
+							nextButtonAction();
 					}
 				});
 				builder1.setNegativeButton("Cancel",
@@ -191,7 +199,19 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 				alert11.show();
 			}
 			else
-				nextButtonAction();
+				if(boxIsChecked())
+				{
+					Log.d("Mine", "CheckBox is checked");
+					Intent intent = new Intent(LoproTMD.this, NumberPickerActivity.class);
+					intent.putExtra("maxValue", (tmdTotal-counter)+1);
+					startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
+				}
+				else
+					nextButtonAction();
+		}
+		else if(index==R.id.checkbox)
+		{
+			return;
 		}
 		else
 		{
@@ -203,12 +223,6 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 	}
 	protected void nextButtonAction()
 	{
-		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
-		if(cb.isChecked()){
-			Intent intent = new Intent(LoproTMD.this, NumberPickerActivity.class);
-			intent.putExtra("maxValue", (tmdTotal-counter)+1);
-			startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
-		}
 		storePlanogram();
 		counter++;
 		for(int i=0; i<planogram.length; i++)
@@ -244,7 +258,27 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 	}
 	public void applyMultiplePlanograms(int multiple)
 	{
-
+		Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
+		for(int i=1; i<multiple; i++)
+		{
+			storePlanogram();
+			counter++;
+		}
+		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+		if(cb.isChecked()){
+            cb.toggle();
+        }
+		nextButtonAction();
+	}
+	public boolean boxIsChecked()
+	{
+		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+		if(cb.isChecked())
+		{
+			return true;
+		}
+		else
+			return false;
 	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -259,13 +293,16 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		}
 		else if (requestCode == MULTIPLE_TMDS_PICKER)
 		{
+			Log.d("Mine", "RequestCode properly identified");
 			if(resultCode == RESULT_OK){
-				int TMDmultiple = getIntent().getIntExtra("result", 1);
-				applyMultiplePlanograms(TMDmultiple);
+			int TMDmultiple = data.getIntExtra("result", 1);
+			applyMultiplePlanograms(TMDmultiple);
 			}
 			if (resultCode == RESULT_CANCELED) {
-				//Write your code if there's no result
-			}
+				Log.d("Mine", "There was no result");
+	            //Write your code if there's no result
+	        }
+			
 		}
 	}
 }

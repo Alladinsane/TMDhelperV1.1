@@ -77,7 +77,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	}
 	public void resetScreen()
 	{
-		
+		Log.d("Mine", "Reset has been called");
 		setHeading(counter);
 		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5};
         for (int i=0; i <resources.length; i++)
@@ -143,7 +143,15 @@ public class FullTMD extends MainActivity implements OnClickListener{
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
-						nextButtonAction();
+						if(boxIsChecked())
+						{
+							Log.d("Mine", "CheckBox is checked");
+							Intent intent = new Intent(FullTMD.this, NumberPickerActivity.class);
+							intent.putExtra("maxValue", (tmdTotal-counter)+1);
+							startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
+						}
+						else
+							nextButtonAction();
 					}
 				});
 				builder1.setNegativeButton("Cancel",
@@ -158,8 +166,15 @@ public class FullTMD extends MainActivity implements OnClickListener{
 				alert11.show();
 			}
 			else
-				//otherwise, proceed with usual "Next" button action
-				nextButtonAction();
+				if(boxIsChecked())
+				{
+					Log.d("Mine", "CheckBox is checked");
+					Intent intent = new Intent(FullTMD.this, NumberPickerActivity.class);
+					intent.putExtra("maxValue", (tmdTotal-counter)+1);
+					startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
+				}
+				else
+					nextButtonAction();
 		}
 		else if(index==R.id.checkbox)
 		{
@@ -177,12 +192,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	}
 	protected void nextButtonAction()
 	{
-		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
-		if(cb.isChecked()){
-			Intent intent = new Intent(FullTMD.this, NumberPickerActivity.class);
-			intent.putExtra("maxValue", (tmdTotal-counter)+1);
-			startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
-		}
+		
 		storePlanogram();
 		//the current planogram is saved to the database
 		counter++;//tmd counter is incremented
@@ -202,6 +212,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			}
 			else
 				//otherwise, "Next" button is left as is and planogram is reset
+				Log.d("Mine", "nextButtonAction calling reset");
 				resetScreen();
 		}
 		else
@@ -287,11 +298,17 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	{
 		//saves this tmd's final planogram to the database
 		String name = "fullTMD" + counter;
+		Log.d("Mine", name);
 		String shelf1=planogram[0];
+		Log.d("Mine", shelf1);
 		String shelf2=planogram[1];
+		Log.d("Mine", shelf2);
 		String shelf3=planogram[2];
+		Log.d("Mine", shelf3);
 		String shelf4=planogram[3];
+		Log.d("Mine", shelf4);
 		String shelf5=planogram[4];
+		Log.d("Mine", shelf5);
 
 		long id = myDatabaseAdapter.insertDataTMDs(name, shelf1, shelf2, shelf3, shelf4, shelf5);
 		
@@ -306,10 +323,31 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	}
 	public void applyMultiplePlanograms(int multiple)
 	{
-		
+		Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
+		for(int i=1; i<multiple; i++)
+		{
+			storePlanogram();
+			counter++;
+		}
+		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+		if(cb.isChecked()){
+            cb.toggle();
+        }
+		nextButtonAction();
+	}
+	public boolean boxIsChecked()
+	{
+		CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
+		if(cb.isChecked())
+		{
+			return true;
+		}
+		else
+			return false;
 	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//should be returning with the user selected item for this shelf
+		Log.d("Mine", "Returned to FullTMD");
 		if (requestCode == MAKE_PRODUCT_SELECTION) {
 			if(resultCode == RESULT_OK){
 	            String result=data.getStringExtra("result");
@@ -321,11 +359,13 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	    }
 		else if (requestCode == MULTIPLE_TMDS_PICKER)
 		{
+			Log.d("Mine", "RequestCode properly identified");
 			if(resultCode == RESULT_OK){
-			int TMDmultiple = getIntent().getIntExtra("result", 1);
+			int TMDmultiple = data.getIntExtra("result", 1);
 			applyMultiplePlanograms(TMDmultiple);
 			}
 			if (resultCode == RESULT_CANCELED) {
+				Log.d("Mine", "There was no result");
 	            //Write your code if there's no result
 	        }
 			
