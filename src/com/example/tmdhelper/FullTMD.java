@@ -66,7 +66,11 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			Button b = (Button)findViewById(resources[i]);
 			b.setOnClickListener(this);
 		}
-
+		
+		if(myDatabaseAdapter.hasObject("fullTMD"+counter))
+		{
+			restorePlanogram(counter);
+		}
 		setHeading(counter);
 
 	}
@@ -241,19 +245,18 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			if(loproTMD>0)
 			{
 				//there are no more Full TMDs in this build, but Low Profile TMDs were selected
+				counter--;
 				Intent intent = new Intent(FullTMD.this, LoproTMD.class);
 				intent.putExtra("brands", brands);
 				startActivity(intent);
-				finish();
-				
 			}
 			else
 			{
 				//this build is done, and the results activity is called
+				counter--;
 				Intent intent = new Intent(FullTMD.this, Results.class);
 				intent.putExtra("brands", brands);
 				startActivity(intent);
-				finish();
 			}
 		}
 		}
@@ -395,6 +398,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		}
 		else
 		{
+			storePlanogram();
 			super.onBackPressed();
 		}
 	}

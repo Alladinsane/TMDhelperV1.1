@@ -57,6 +57,10 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 			Button b = (Button)findViewById(resources[i]);
 			b.setOnClickListener(this);
 		}
+		if(myDatabaseAdapter.hasObject("loproTMD"+counter))
+		{
+			restorePlanogram(counter);
+		}
 		setHeading(counter);
 	}
 
@@ -193,12 +197,17 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 	public void onBackPressed() {
 		if(counter>1)
 		{
+			Button b = (Button) findViewById(R.id.next_button);
+			b.setText("Next-->");
 			storePlanogram();
 			counter--;
 			restorePlanogram(counter);
 		}
 		else
 		{
+			Button b = (Button) findViewById(R.id.next_button);
+			b.setText("Next-->");
+			storePlanogram();
 			super.onBackPressed();
 		}
 	}
@@ -286,12 +295,16 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		storePlanogram();
 		counter++;
 		if(counter<tmdTotal)
+		{
+			Button b = (Button) findViewById(R.id.next_button);
+			b.setText("Next-->");
 			if(myDatabaseAdapter.hasObject("loproTMD"+counter))
 			{
 				restorePlanogram(counter);
 			}
 			else
 				resetScreen();
+		}
 		else if(counter==tmdTotal)
 		{
 			Button b = (Button) findViewById(R.id.next_button);
@@ -305,10 +318,10 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		}
 		else
 		{
+			counter--;
 			Intent intent = new Intent(LoproTMD.this, Results.class);
 			intent.putExtra("brands", brands);
 			startActivity(intent);
-			finish();
 		}
 	}
 	public boolean checkForEmpty()
