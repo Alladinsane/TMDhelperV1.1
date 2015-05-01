@@ -145,7 +145,63 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 			Log.d("Mine", "Successfully added " + name);
 		}
 	}
+	public void restorePlanogram(int tmdNumber)
+	{
+		//Method to retrieve prior planogram and set it current
+		setHeading(tmdNumber);
+		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4};
+		String name = "loproTMD" +tmdNumber;
+		String rawData = myDatabaseAdapter.getPlanogramData(name);
 
+		StringTokenizer st = new StringTokenizer(rawData);
+
+		//while(st.hasMoreTokens())
+		//{
+			for(int i=0; i<=3; i++)
+			{
+				Log.d("Mine", "Adding planogram[" + i + "]");
+				planogram[i] = st.nextToken();
+			}
+		//}
+		for(int i=0; i<planogram.length; i++)
+		{
+			StringTokenizer names = new StringTokenizer(planogram[i]);
+
+			while(names.hasMoreTokens())
+			{
+				String item = names.nextToken();
+				String productData = myDatabaseAdapter.getProductData(item);
+				StringTokenizer pd = new StringTokenizer(productData);
+				while(pd.hasMoreTokens())
+				{
+					//unpack info from array 
+					String s = pd.nextToken();
+					String color = pd.nextToken();
+					Integer.parseInt(pd.nextToken());
+					Integer.parseInt(pd.nextToken());
+
+					int tempID = getResources().getIdentifier(color, color, getPackageName());
+					int thisColor= getResources().getColor(tempID);
+					//change shelf Button text to item name, and background color to item color
+					Button b = (Button) findViewById(resources[i]);
+					b.setText(s);
+					b.setBackgroundColor(thisColor);
+				}	
+			}
+		}
+	}
+	public void onBackPressed() {
+		if(counter>1)
+		{
+			storePlanogram();
+			counter--;
+			restorePlanogram(counter);
+		}
+		else
+		{
+			super.onBackPressed();
+		}
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -229,17 +285,23 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 	{
 		storePlanogram();
 		counter++;
-		for(int i=0; i<planogram.length; i++)
-		{
-			planogram[i]= "empty";
-		}
 		if(counter<tmdTotal)
-			resetScreen();
+			if(myDatabaseAdapter.hasObject("loproTMD"+counter))
+			{
+				restorePlanogram(counter);
+			}
+			else
+				resetScreen();
 		else if(counter==tmdTotal)
 		{
 			Button b = (Button) findViewById(R.id.next_button);
 			b.setText("Finish");
-			resetScreen();
+			if(myDatabaseAdapter.hasObject("loproTMD"+counter))
+			{
+				restorePlanogram(counter);
+			}
+			else
+				resetScreen();
 		}
 		else
 		{

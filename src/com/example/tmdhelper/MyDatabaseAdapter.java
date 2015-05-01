@@ -33,7 +33,7 @@ public class MyDatabaseAdapter {
 	    contentValues.put(MySQLiteOpenHelper.SHELF_COUNT, shelfCount);
 	    
 	    long id = db.insert(MySQLiteOpenHelper.TABLE_NAME_PRODUCTS, null, contentValues);
-	    
+	    db.close();
 	    return id;
 	}
 	public long insertDataTMDs(String name, String shelf1, String shelf2, String shelf3,
@@ -41,6 +41,7 @@ public class MyDatabaseAdapter {
 	{
 		//stores the planogram for an individual TMD 
 		SQLiteDatabase db = myHelper.getWritableDatabase();
+		
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(MySQLiteOpenHelper.NAME, name);
 		contentValues.put(MySQLiteOpenHelper.SHELF_1, shelf1);
@@ -48,10 +49,20 @@ public class MyDatabaseAdapter {
 		contentValues.put(MySQLiteOpenHelper.SHELF_3, shelf3);
 		contentValues.put(MySQLiteOpenHelper.SHELF_4, shelf4);
 		contentValues.put(MySQLiteOpenHelper.SHELF_5, shelf5);
-	    
-	    long id = db.insert(MySQLiteOpenHelper.TABLE_NAME_TMDS, null, contentValues);
-	    
-	    return id;
+		//if this TMD already exists, it will be replaced
+		if(hasObject(name))
+		{
+			long id = db.update(MySQLiteOpenHelper.TABLE_NAME_TMDS, contentValues, 
+					MySQLiteOpenHelper.NAME + "='" + name + "'", null);
+			db.close();
+			return id;
+		}
+		else
+		{
+			long id = db.insert(MySQLiteOpenHelper.TABLE_NAME_TMDS, null, contentValues);
+			db.close();
+			return id;
+		}
 	}
 	public String getProductData(String name)
 	{
@@ -74,6 +85,8 @@ public class MyDatabaseAdapter {
 			int shelfCount = cursor.getInt(index4);
 			buffer.append(brandName + " " + color + " " + caseCount + " " + shelfCount + "\n");
 		}
+		cursor.close();
+		db.close();
 		return buffer.toString();
 	}
 	public String getPlanogramData(String name)
@@ -96,16 +109,17 @@ public class MyDatabaseAdapter {
 			int index5 = cursor.getColumnIndex(MySQLiteOpenHelper.SHELF_4);
 			int index6 = cursor.getColumnIndex(MySQLiteOpenHelper.SHELF_5);
 			
-			String tmdName = cursor.getString(index1);
 			String shelf1 = cursor.getString(index2);
 			String shelf2 = cursor.getString(index3);
 			String shelf3 = cursor.getString(index4);
 			String shelf4 = cursor.getString(index5);
 			String shelf5 = cursor.getString(index6);
 			
-			buffer.append(tmdName + " " + shelf1 + " " + shelf2 + " " + shelf3 + " " + 
+			buffer.append(shelf1 + " " + shelf2 + " " + shelf3 + " " + 
 			shelf4 + " " + shelf5+ "\n");
 		}
+		db.close();
+		cursor.close();
 		return buffer.toString();
 	}
 	public ArrayList<String> getAllItems() {
@@ -138,12 +152,28 @@ public class MyDatabaseAdapter {
 			allItems.add(shelf4);
 			allItems.add(shelf5);
 		}
+		cursor.close();
+		db.close();
 		return allItems;
+	}
+	public boolean hasObject(String id) {
+	    SQLiteDatabase db = myHelper.getWritableDatabase();
+	    String selectString = "SELECT * FROM " + MySQLiteOpenHelper.TABLE_NAME_TMDS
+	            + " WHERE " + MySQLiteOpenHelper.NAME + " =? ";
+	    Cursor cursor = db.rawQuery(selectString, new String[] {id}); //add the String your searching by here
+
+	    boolean hasObject = false;
+	    if(cursor.moveToFirst()){
+	        hasObject = true;
+	    } 
+	    cursor.close();         
+	    return hasObject;
 	}
 	public void deleteTMDdatabase()
 	{
 		SQLiteDatabase db = myHelper.getWritableDatabase();
 		db.execSQL("delete from "+ MySQLiteOpenHelper.TABLE_NAME_TMDS);
+		db.close();
 	}
 	
 	static class MySQLiteOpenHelper extends SQLiteOpenHelper{

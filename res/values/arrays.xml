@@ -35,17 +35,17 @@
     	<item>SPKett @color/grey 14 24</item>
     </array>
     <array name="Doritos">
-        <item>Nacho @color/red 7 24</item>
-        <item>CRA @color/dark_blue 7 24</item>
-        <item>SpicyNacho @color/dark_red 7 24</item>
-        <item>SwChili @color/violet 7 24</item>
-        <item>Taco @color/orange 7 24</item>
+        <item>Nacho @color/red 7 18</item>
+        <item>CRA @color/dark_blue 7 18</item>
+        <item>SpicyNacho @color/dark_red 7 18</item>
+        <item>SwChili @color/violet 7 18</item>
+        <item>Taco @color/orange 7 18</item>
     </array>
     <array name="Tostitos">
         <item>RSTC @color/teal 5 18</item>
-        <item>Scoops @color/violet 7 24</item>
+        <item>Scoops @color/violet 7 18</item>
         <item>Btsz @color/dark_blue 7 24</item>
-        <item>CrispyRnd @color/orange 6 24</item>
+        <item>CrispyRnd @color/orange 6 18</item>
         <item>Lime @color/green 5 18</item>
     </array>
     <array name="FritosCheetos">

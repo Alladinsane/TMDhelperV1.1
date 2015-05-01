@@ -200,8 +200,16 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		//the current planogram is saved to the database
 		counter++;//tmd counter is incremented
 		if(counter<tmdTotal)
-			resetScreen();//if there are remaining tmds in this build, the planogram is reset
-			//for the next tower
+		{
+			Button b = (Button) findViewById(R.id.next_button);
+			b.setText("Next-->");
+			if(myDatabaseAdapter.hasObject("fullTMD"+counter))
+			{
+				restorePlanogram(counter);
+			}
+			else
+				resetScreen();
+		}
 		else if(counter==tmdTotal)
 		{
 			//if this our last full TMD and no low profile tmd's have been selected for this
@@ -209,13 +217,23 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			if(loproTMD==0)
 			{
 				//our "Next" button changes to a "finish" button
+				
 				Button b = (Button) findViewById(R.id.next_button);
 				b.setText("Finish");
+				if(myDatabaseAdapter.hasObject("fullTMD"+counter))
+				{
+					restorePlanogram(counter);
+				}
+				else
 				resetScreen();
 			}
 			else
 				//otherwise, "Next" button is left as is and planogram is reset
-				Log.d("Mine", "nextButtonAction calling reset");
+				if(myDatabaseAdapter.hasObject("fullTMD"+counter))
+				{
+					restorePlanogram(counter);
+				}
+				else
 				resetScreen();
 		}
 		else
@@ -321,6 +339,63 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		else
 		{
 			Log.d("Mine", "Successfully added " + name);
+		}
+	}
+	public void restorePlanogram(int tmdNumber)
+	{
+		//Method to retrieve prior planogram and set it current
+		setHeading(tmdNumber);
+		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5};
+		String name = "fullTMD" +tmdNumber;
+		String rawData = myDatabaseAdapter.getPlanogramData(name);
+
+		StringTokenizer st = new StringTokenizer(rawData);
+
+		while(st.hasMoreTokens())
+		{
+			for(int i=0; i<=4; i++)
+			{
+				planogram[i] = st.nextToken();
+			}
+		}
+		for(int i=0; i<planogram.length; i++)
+		{
+			StringTokenizer names = new StringTokenizer(planogram[i]);
+
+			while(names.hasMoreTokens())
+			{
+				String item = names.nextToken();
+				String productData = myDatabaseAdapter.getProductData(item);
+				StringTokenizer pd = new StringTokenizer(productData);
+				while(pd.hasMoreTokens())
+				{
+					//unpack info from array 
+					String s = pd.nextToken();
+					String color = pd.nextToken();
+					Integer.parseInt(pd.nextToken());
+					Integer.parseInt(pd.nextToken());
+
+					int tempID = getResources().getIdentifier(color, color, getPackageName());
+					int thisColor= getResources().getColor(tempID);
+					//change shelf Button text to item name, and background color to item color
+					Button b = (Button) findViewById(resources[i]);
+					b.setText(s);
+					b.setBackgroundColor(thisColor);
+				}	
+			}
+		}
+	}
+	@Override
+	public void onBackPressed() {
+		if(counter>1)
+		{
+			storePlanogram();
+			counter--;
+			restorePlanogram(counter);
+		}
+		else
+		{
+			super.onBackPressed();
 		}
 	}
 	public boolean boxIsChecked()
