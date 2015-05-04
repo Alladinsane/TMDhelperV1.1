@@ -28,10 +28,10 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	int counter=1;
 	int buttonID;
 	int multiple;
-	String defaultEntry = getResources().getString(R.string.default_entry);
+	//String defaultEntry = getResources().getString(R.string.default_entry);
 	SharedPreferences tmdPrefs;
 	ArrayList<String> brands = new ArrayList<String>();
-	String[] planogram = new String[]{defaultEntry, defaultEntry, defaultEntry, defaultEntry, defaultEntry};
+	String[] planogram = new String[]{"empty", "empty", "empty", "empty", "empty"};
 	//our planogram is instantiated with all the shelves empty
 	MyDatabaseAdapter myDatabaseAdapter;
 	
@@ -97,7 +97,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
         }
         for(int i=0; i<planogram.length; i++)
         {
-        	planogram[i]=defaultEntry;
+        	planogram[i]="empty";
         }
 		
 	}
@@ -106,7 +106,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		//checks to see if any shelves have been left empty
 		for(int i=0; i<planogram.length; i++)
 		{
-			if(planogram[i].equals(defaultEntry))
+			if(planogram[i].equals("empty"))
 			{
 				return true;
 			}
@@ -128,7 +128,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_reset) {
-			planogram=new String[]{defaultEntry, defaultEntry, defaultEntry, defaultEntry, defaultEntry};
+			planogram=new String[]{"empty", "empty", "empty", "empty", "empty"};
 			resetScreen();
 			return true;
 		}
@@ -161,7 +161,6 @@ public class FullTMD extends MainActivity implements OnClickListener{
 						dialog.cancel();
 						if(boxIsChecked())
 						{
-							Log.d("Mine", "CheckBox is checked");
 							Intent intent = new Intent(FullTMD.this, NumberPickerActivity.class);
 							intent.putExtra("maxValue", (tmdTotal-counter)+1);
 							startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
@@ -184,7 +183,6 @@ public class FullTMD extends MainActivity implements OnClickListener{
 			else
 				if(boxIsChecked())
 				{
-					Log.d("Mine", "CheckBox is checked");
 					Intent intent = new Intent(FullTMD.this, NumberPickerActivity.class);
 					intent.putExtra("maxValue", (tmdTotal-counter)+1);
 					startActivityForResult(intent, MULTIPLE_TMDS_PICKER);
@@ -435,7 +433,6 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	    }
 		else if (requestCode == MULTIPLE_TMDS_PICKER)
 		{
-			Log.d("Mine", "RequestCode properly identified");
 			if(resultCode == RESULT_OK){
 			multiple = data.getIntExtra("result", 1);
 			CheckBox cb = (CheckBox) findViewById(R.id.checkbox);
@@ -469,7 +466,6 @@ private class MultipleTMD extends AsyncTask <Void, Void, String>
     @Override
     protected String doInBackground(Void... params)
     {
-    	Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
 		for(int i=1; i<multiple; i++)
 		{
 			storePlanogram();
