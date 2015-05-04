@@ -28,9 +28,10 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	int counter=1;
 	int buttonID;
 	int multiple;
+	String defaultEntry = getResources().getString(R.string.default_entry);
 	SharedPreferences tmdPrefs;
 	ArrayList<String> brands = new ArrayList<String>();
-	String[] planogram = new String[]{"empty", "empty", "empty", "empty", "empty"};
+	String[] planogram = new String[]{defaultEntry, defaultEntry, defaultEntry, defaultEntry, defaultEntry};
 	//our planogram is instantiated with all the shelves empty
 	MyDatabaseAdapter myDatabaseAdapter;
 	
@@ -96,7 +97,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
         }
         for(int i=0; i<planogram.length; i++)
         {
-        	planogram[i]="empty";
+        	planogram[i]=defaultEntry;
         }
 		
 	}
@@ -105,7 +106,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		//checks to see if any shelves have been left empty
 		for(int i=0; i<planogram.length; i++)
 		{
-			if(planogram[i].equals("empty"))
+			if(planogram[i].equals(defaultEntry))
 			{
 				return true;
 			}
@@ -127,7 +128,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_reset) {
-			planogram=new String[]{"empty", "empty", "empty", "empty", "empty"};
+			planogram=new String[]{defaultEntry, defaultEntry, defaultEntry, defaultEntry, defaultEntry};
 			resetScreen();
 			return true;
 		}
@@ -152,7 +153,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 				//to cancel "Next" and go back to the planogram, or leave them
 				//empty and continue
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-				builder1.setMessage("Some shelves will be left empty.");
+				builder1.setMessage(getResources().getString(R.string.empty_alert_message));
 				builder1.setCancelable(true);
 				builder1.setPositiveButton("OK",
 						new DialogInterface.OnClickListener() {

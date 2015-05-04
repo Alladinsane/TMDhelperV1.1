@@ -107,7 +107,7 @@ public class Splash extends MainActivity {
 				String[] product = getResources().getStringArray(tempID);
 
 				//"Empty" should be the first option no matter what brand our user selects
-				String empty = "empty";
+				String empty = getResources().getString(R.string.default_entry);
 				String emptyColor = "@color/white";
 				int emptyCount = 0;
 				int emptyShelf = 0;

@@ -1900,10 +1900,11 @@ containing a value of this type.
         public static final int action_settings=0x7f0a0012;
         public static final int add_button=0x7f0a0019;
         public static final int app_name=0x7f0a0010;
-        public static final int cancel=0x7f0a0027;
+        public static final int cancel=0x7f0a0028;
         public static final int checkbox_label=0x7f0a0022;
         public static final int default_entry=0x7f0a001f;
-        public static final int exit_button=0x7f0a0025;
+        public static final int empty_alert_message=0x7f0a0023;
+        public static final int exit_button=0x7f0a0026;
         public static final int fullTMD_prompt=0x7f0a001c;
         public static final int hello_world=0x7f0a0011;
         public static final int instructions=0x7f0a0021;
@@ -1912,15 +1913,15 @@ containing a value of this type.
         public static final int menu_item_start=0x7f0a0017;
         public static final int menu_title=0x7f0a0016;
         public static final int next_button=0x7f0a001e;
-        public static final int number_picker_text=0x7f0a0029;
-        public static final int ok=0x7f0a0026;
+        public static final int number_picker_text=0x7f0a002a;
+        public static final int ok=0x7f0a0027;
         public static final int reset_plan=0x7f0a0013;
-        public static final int results_title=0x7f0a0023;
+        public static final int results_title=0x7f0a0024;
         public static final int select_all=0x7f0a001a;
         public static final int start_over=0x7f0a0014;
-        public static final int start_over_button=0x7f0a0024;
+        public static final int start_over_button=0x7f0a0025;
         public static final int title=0x7f0a0015;
-        public static final int title_activity_number_picker=0x7f0a0028;
+        public static final int title_activity_number_picker=0x7f0a0029;
         public static final int tmd_heading=0x7f0a0020;
         public static final int unselect_all=0x7f0a001b;
     }
