@@ -4,6 +4,12 @@
     tools:context="com.example.tmdhelper.MainActivity" >
 
     <item
+        android:id="@+id/action_reset"
+        android:orderInCategory="50"
+        android:title="@string/reset_plan"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_restart"
         android:orderInCategory="50"
         android:title="@string/start_over"

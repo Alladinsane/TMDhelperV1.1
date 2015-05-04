@@ -116,7 +116,7 @@ public class FullTMD extends MainActivity implements OnClickListener{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.planogram, menu);
 		return true;
 	}
 
@@ -126,7 +126,15 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_reset) {
+			planogram=new String[]{"empty", "empty", "empty", "empty", "empty"};
+			resetScreen();
+			return true;
+		}
+		else if(id == R.id.action_restart)
+		{
+			myDatabaseAdapter.deleteTMDdatabase();
+			startActivity(new Intent(FullTMD.this, TMDmenu.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

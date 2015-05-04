@@ -13,23 +13,24 @@ public class NumberPickerActivity extends MainActivity implements OnClickListene
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
-	  Log.d("Mine", "NumberPicker Oncreate");
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.number_picker);
-    np = (android.widget.NumberPicker)findViewById(R.id.number_picker);
-    int[] resources = {R.id.apply_button};
-	for (int i=0; i <resources.length; i++)
-	{
-		Button b = (Button)findViewById(resources[i]);
-		b.setOnClickListener(this);
-	}
-    int max = getIntent().getIntExtra("maxValue", 1);
-    np.setMinValue(1);// restricted number to minimum value i.e 1
-    np.setMaxValue(max);// restricted number to maximum value 
-    np.setWrapSelectorWheel(true); 
+	  android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+	  actionBar.hide();
+	  super.onCreate(savedInstanceState);
+	  setContentView(R.layout.number_picker);
+	  np = (android.widget.NumberPicker)findViewById(R.id.number_picker);
+	  int[] resources = {R.id.apply_button};
+	  for (int i=0; i <resources.length; i++)
+	  {
+		  Button b = (Button)findViewById(resources[i]);
+		  b.setOnClickListener(this);
+	  }
+	  int max = getIntent().getIntExtra("maxValue", 1);
+	  np.setMinValue(1);// restricted number to minimum value i.e 1
+	  np.setMaxValue(max);// restricted number to maximum value 
+	  np.setWrapSelectorWheel(true); 
 
-    np.setOnValueChangedListener(new android.widget.NumberPicker.OnValueChangeListener() 
-    {
+	  np.setOnValueChangedListener(new android.widget.NumberPicker.OnValueChangeListener() 
+	  {
 
 	@Override
 	public void onValueChange(android.widget.NumberPicker picker, int oldVal,
