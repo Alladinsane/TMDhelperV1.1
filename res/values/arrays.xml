@@ -49,14 +49,14 @@
         <item>Lime @color/green 5 18</item>
     </array>
     <array name="FritosCheetos">
-        <item>Puffs @color/teal 10 18</item>
-        <item>Crunchy @color/orange 10 30</item>
-        <item>Hot @color/red 10 30</item>
-        <item>Jalapeno @color/green 10 30</item>
-        <item>FritoReg @color/beige 10 30</item>
-        <item>FritoScoops @color/dark_blue 10 30</item>
-        <item>Chili @color/dark_brown 10 30</item>
-        <item>HnyBBQ @color/grey 10 30</item>
+        <item>Puffs @color/bright_orange 10 18</item>
+        <item>Crunchy @color/orange 10 24</item>
+        <item>Hot @color/red 10 24</item>
+        <item>Jalapeno @color/green 10 24</item>
+        <item>FritoReg @color/beige 10 24</item>
+        <item>FritoScoops @color/dark_blue 10 24</item>
+        <item>Chili @color/dark_brown 10 24</item>
+        <item>HnyBBQ @color/grey 10 24</item>
     </array>
     <array name = "PartySize">
         <item>psRSTC @color/teal 4 18</item>
