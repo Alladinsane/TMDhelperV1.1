@@ -9,6 +9,6 @@
 	<dimen name="tmd_bottom_margin">5dp</dimen>
 	<dimen name="tmd_side_margin">25dp</dimen>
 	<dimen name="tmd_layout_margin">30dp</dimen>
-	
+	<dimen name="menu_bottom_logo_width">250dp</dimen>
 	
 </resources>

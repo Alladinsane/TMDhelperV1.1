@@ -1610,6 +1610,7 @@ containing a value of this type.
         public static final int dialog_fixed_width_minor=0x7f08000d;
         public static final int disabled_alpha_material_dark=0x7f080001;
         public static final int disabled_alpha_material_light=0x7f080000;
+        public static final int menu_bottom_logo_width=0x7f080033;
         public static final int menu_item_size=0x7f08002e;
         public static final int menu_title_size=0x7f08002d;
         public static final int tmd_bottom_margin=0x7f080030;

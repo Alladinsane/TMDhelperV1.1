@@ -53,13 +53,16 @@
             android:layout_centerInParent="true"
             android:layout="@+id/menu_title" >
         </ListView>
+
          <ImageView
-        android:id="@+id/bottom_logo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:scaleType="fitEnd"
-        android:src="@drawable/pepsico" />
+             android:id="@+id/bottom_logo"
+             android:layout_width="@dimen/menu_bottom_logo_width"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:layout_centerHorizontal="true"
+             android:adjustViewBounds="true"
+             android:scaleType="centerInside"
+             android:src="@drawable/pepsico" />
         
     </RelativeLayout>
 

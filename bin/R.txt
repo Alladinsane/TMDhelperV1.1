@@ -308,6 +308,7 @@ int dimen dialog_fixed_width_major 0x7f08000c
 int dimen dialog_fixed_width_minor 0x7f08000d
 int dimen disabled_alpha_material_dark 0x7f080001
 int dimen disabled_alpha_material_light 0x7f080000
+int dimen menu_bottom_logo_width 0x7f080033
 int dimen menu_item_size 0x7f08002e
 int dimen menu_title_size 0x7f08002d
 int dimen tmd_bottom_margin 0x7f080030
