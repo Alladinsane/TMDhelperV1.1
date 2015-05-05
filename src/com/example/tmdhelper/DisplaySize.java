@@ -107,7 +107,6 @@ public class DisplaySize extends MainActivity implements OnClickListener{
 		{
 			brands.clear();
 			startActivity(new Intent(DisplaySize.this, TMDmenu.class));
-			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

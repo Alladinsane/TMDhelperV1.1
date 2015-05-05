@@ -13,8 +13,6 @@ public class NumberPickerActivity extends MainActivity implements OnClickListene
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
-	  android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-	  actionBar.hide();
 	  super.onCreate(savedInstanceState);
 	  setContentView(R.layout.number_picker);
 	  np = (android.widget.NumberPicker)findViewById(R.id.number_picker);
