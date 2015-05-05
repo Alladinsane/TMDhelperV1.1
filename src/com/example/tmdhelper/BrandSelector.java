@@ -3,12 +3,11 @@ package com.example.tmdhelper;
 
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +31,8 @@ public class BrandSelector extends MainActivity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brand_selector_layout);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.hide();
 		ListView selectBrand = (ListView)findViewById(R.id.add_list_view);
 
 		adapt = new ArrayAdapter<String>(

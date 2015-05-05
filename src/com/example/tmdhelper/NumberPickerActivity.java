@@ -2,6 +2,7 @@ package com.example.tmdhelper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,8 @@ public class NumberPickerActivity extends MainActivity implements OnClickListene
   {
 	  super.onCreate(savedInstanceState);
 	  setContentView(R.layout.number_picker);
+	  ActionBar actionBar = getSupportActionBar();
+	  actionBar.hide();
 	  np = (android.widget.NumberPicker)findViewById(R.id.number_picker);
 	  int[] resources = {R.id.apply_button};
 	  for (int i=0; i <resources.length; i++)

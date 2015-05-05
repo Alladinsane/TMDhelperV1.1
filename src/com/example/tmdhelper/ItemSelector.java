@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,8 @@ public class ItemSelector extends MainActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.item_selector);
-		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.hide();
 		ArrayList<String> itemArray = loadItemArray();
 		Log.d("Mine", "itemArray = " + itemArray);
 		ListView selectItem = (ListView)findViewById(R.id.item_list_view);
