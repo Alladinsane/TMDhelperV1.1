@@ -39,8 +39,10 @@ public class Splash extends MainActivity {
 			//Once animations have completed, our splash page launches
 			//the main menu activity
 			public void onAnimationEnd(Animation animation){
-				startActivity(new Intent(Splash.this,
-						TMDmenu.class));
+				Intent intent = new Intent(Splash.this, TMDmenu.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 				Splash.this.finish();
 			}
 

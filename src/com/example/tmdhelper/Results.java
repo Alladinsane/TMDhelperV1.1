@@ -171,7 +171,10 @@ public class Results extends MainActivity implements OnClickListener {
 			myDatabaseAdapter.deleteTMDdatabase();
 			results.clear();
 			products.clear();
-			startActivity(new Intent(Results.this, TMDmenu.class));
+			Intent intent = new Intent(Results.this, TMDmenu.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
 			finish();
 		}
 		/*decided not to implement exit button at this time

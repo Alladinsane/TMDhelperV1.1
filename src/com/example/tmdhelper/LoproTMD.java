@@ -232,7 +232,10 @@ public class LoproTMD extends MainActivity implements OnClickListener{
 		else if(id == R.id.action_restart)
 		{
 			myDatabaseAdapter.deleteTMDdatabase();
-			startActivity(new Intent(LoproTMD.this, TMDmenu.class));
+			Intent intent = new Intent(LoproTMD.this, TMDmenu.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
 			finish();
 			return true;
 		}
