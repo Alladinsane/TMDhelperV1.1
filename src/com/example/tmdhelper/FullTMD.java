@@ -135,11 +135,29 @@ public class FullTMD extends MainActivity implements OnClickListener{
 		else if(id == R.id.action_restart)
 		{
 			myDatabaseAdapter.deleteTMDdatabase();
-			Intent intent = new Intent(FullTMD.this, TMDmenu.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			finish();
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+			builder1.setMessage(getResources().getString(R.string.restart_alert_message));
+			builder1.setCancelable(true);
+			builder1.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+					Intent intent = new Intent(FullTMD.this, TMDmenu.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+					finish();
+				}});
+			builder1.setNegativeButton("Cancel",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+					return;
+				}
+			});
+
+			AlertDialog alert11 = builder1.create();
+			alert11.show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

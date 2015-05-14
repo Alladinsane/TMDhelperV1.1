@@ -21,6 +21,7 @@
     <string name="instructions">Select a shelf to set product:</string>
     <string name="checkbox_label">apply planogram to multiple TMDs</string>
     <string name="empty_alert_message">"Some shelves will be left empty."</string>
+    <string name="restart_alert_message">"Current Build Data will be lost."</string>
     <string name="results_title">Order For This Build:</string>
     <string name="start_over_button">Main Menu</string>
     <string name="exit_button">Exit</string>
