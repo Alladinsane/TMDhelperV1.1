@@ -22,22 +22,24 @@ import android.widget.TextView;
  */
 public class LoproTMD extends TMDactivity implements OnClickListener{
 	public String TMDname="loproTMD";
+	final String TITLE="Low Profile";
 	ArrayList<String> brands = new ArrayList<String>();
+	int counter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final String TITLE = "Low Profile";
-		super.setTitle(TITLE);
+		super.setTMDname(TMDname);
 		setContentView(R.layout.lopro_tmd);
 		resources = getButtonResources();
 		super.setButtonResources(resources);
 		tmdPrefs = getSharedPreferences(TMD_PREFERENCES, MODE_PRIVATE);
-		myDatabaseAdapter = new MyDatabaseAdapter(this);brands = getIntent().getStringArrayListExtra("brands");
+		myDatabaseAdapter = new MyDatabaseAdapter(this);
 		brands = getIntent().getStringArrayListExtra("brands");
 		initializePlanogram();
 		super.setBrandsArray(brands);
-
+		super.resetScreen();
+		
 		if(tmdPrefs.contains("loproTMD"))
 		{
 			loproTMD = tmdPrefs.getInt("loproTMD", 0);
@@ -57,12 +59,12 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 			Button b = (Button)findViewById(resources[i]);
 			b.setOnClickListener(this);
 		}
-		subcounter=super.getCounter();
+		counter=tmdPrefs.getInt("counter", 1);
 		if(planogramExists())
 		{
-			restorePlanogram(subcounter);
+			restorePlanogram(counter);
 		}
-		setHeading(subcounter);
+		setHeading(counter);
 	}
 	public int[] getButtonResources()
 	{
@@ -73,7 +75,7 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 	public void setHeading(int number)
 	{
 		TextView header = (TextView) findViewById(R.id.TMDnumber);
-		String heading = TITLE +" #" +  number + " of " + loproTMD;
+		String heading = this.TITLE +" #" +  number + " of " + loproTMD;
 		header.setText(heading);
 	}
 	
@@ -111,5 +113,35 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 		String shelf5="no_shelf";
 		super.setShelf5(shelf5);
 		super.storePlanogram();
+	}
+	protected void nextButtonAction()
+	{
+		int counter=super.getCounter();
+		storePlanogram();
+		resetScreen();
+
+		if(counter==loproTMD)
+		{
+			storePlanogram();
+			Intent intent = new Intent(LoproTMD.this, Results.class);
+			intent.putExtra("brands", brands);
+			startActivity(intent);
+			finish();
+		}
+		else
+			super.nextButtonAction();
+	}
+	public void onBackPressed() {
+		counter--;
+		if(counter>0)
+			super.restorePlanogram(counter);
+		else
+		{
+			int fullTMD = tmdPrefs.getInt("fullTMD", 0);
+			SharedPreferences.Editor prefEditor = tmdPrefs.edit();
+			prefEditor.putInt("counter", fullTMD);
+			prefEditor.commit();
+			startActivity(new Intent(LoproTMD.this, FullTMD.class));
+		}
 	}
 }

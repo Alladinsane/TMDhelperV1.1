@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,10 +21,13 @@ public class Results extends MainActivity implements OnClickListener {
 	MyDatabaseAdapter myDatabaseAdapter;
 	ArrayList<String> products;
 	ArrayList<String> results= new ArrayList<String>();
+	public static final String TMD_PREFERENCES = "tmdPrefs";
+	SharedPreferences tmdPrefs;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.results);
+		tmdPrefs = getSharedPreferences(TMD_PREFERENCES, MODE_PRIVATE);
 
 		int[] resources = {R.id.start_over, R.id.exit};
 		for (int i=0; i <resources.length; i++)
@@ -192,6 +196,31 @@ public class Results extends MainActivity implements OnClickListener {
 	        finish();
 		}
 		*/
+	}
+	public void onBackPressed()
+	{
+		
+		int loproTMD=0;
+		if(tmdPrefs.contains("loproTMD"))
+		{
+			loproTMD = tmdPrefs.getInt("loproTMD", 0);
+		}
+		if(loproTMD>0)
+		{
+			SharedPreferences.Editor prefEditor = tmdPrefs.edit();
+			prefEditor.putInt("counter", loproTMD);
+			prefEditor.commit();
+			startActivity(new Intent(Results.this, LoproTMD.class));
+		}
+		else
+		{
+			int fullTMD = tmdPrefs.getInt("fullTMD", 0);
+			SharedPreferences.Editor prefEditor = tmdPrefs.edit();
+			prefEditor.putInt("counter", fullTMD);
+			prefEditor.commit();
+			startActivity(new Intent(Results.this, FullTMD.class));
+		}
+		finish();
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

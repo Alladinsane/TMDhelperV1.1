@@ -41,14 +41,14 @@ import android.widget.TextView;
  */
 public class FullTMD extends TMDactivity implements OnClickListener{
 	int counter=1;
-	public String TMDname="fullTMD";
+	final String TMDname="fullTMD";
+	final String TITLE="Full TMD";
 	ArrayList<String> brands = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final String TITLE = "Full TMD";
-		super.setTitle(TITLE);
+		super.setTMDname(TMDname);
 		setContentView(R.layout.full_tmd);
 		resources = getButtonResources();
 		tmdPrefs = getSharedPreferences(TMD_PREFERENCES, MODE_PRIVATE);
@@ -81,7 +81,7 @@ public class FullTMD extends TMDactivity implements OnClickListener{
 			Button b = (Button)findViewById(resources[i]);
 			b.setOnClickListener(this);
 		}
-		counter=super.getCounter();
+		counter=tmdPrefs.getInt("counter", 1);
 		if(planogramExists())
 		{
 			restorePlanogram(counter);
@@ -135,6 +135,8 @@ public class FullTMD extends TMDactivity implements OnClickListener{
 	protected void nextButtonAction()
 	{
 		counter = super.getCounter();
+		storePlanogram();
+		resetScreen();
 		if((counter)==fullTMD)
 		{
 			if(loproTMD>0)
@@ -154,7 +156,17 @@ public class FullTMD extends TMDactivity implements OnClickListener{
 				finish();
 			}
 		}
-		super.nextButtonAction();
+		else
+			super.nextButtonAction();
+	}
+	public void onBackPressed() {
+		counter--;
+		if(counter>0)
+			super.restorePlanogram(counter);
+		else
+		{
+			super.onBackPressed();
+		}
 	}
 	public void setHeading(int number)
 	{

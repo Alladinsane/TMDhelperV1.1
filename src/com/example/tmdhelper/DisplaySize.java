@@ -72,6 +72,7 @@ public class DisplaySize extends MainActivity implements OnClickListener{
             		SharedPreferences.Editor prefEditor = tmdPrefs.edit();
             		prefEditor.putInt("fullTMD", fullTMD);
             		prefEditor.putInt("loproTMD", loproTMD);
+            		prefEditor.putInt("counter", 1);
             		prefEditor.commit();
             		
             		//values are stored and
