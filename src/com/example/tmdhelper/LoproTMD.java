@@ -146,4 +146,52 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 			finish();
 		}
 	}
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.planogram, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_reset) {
+			initializePlanogram();
+			resetScreen();
+			return true;
+		}
+		else if(id == R.id.action_restart)
+		{
+			myDatabaseAdapter.deleteTMDdatabase();
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+			builder1.setMessage(getResources().getString(R.string.restart_alert_message));
+			builder1.setCancelable(true);
+			builder1.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+					Intent intent = new Intent(LoproTMD.this, TMDmenu.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+					finish();
+				}});
+			builder1.setNegativeButton("Cancel",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+					return;
+				}
+			});
+
+			AlertDialog alert11 = builder1.create();
+			alert11.show();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 }
