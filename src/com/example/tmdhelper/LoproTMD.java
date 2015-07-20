@@ -138,10 +138,12 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 		else
 		{
 			int fullTMD = tmdPrefs.getInt("fullTMD", 0);
+			super.setTMDname("fullTMD");
 			SharedPreferences.Editor prefEditor = tmdPrefs.edit();
 			prefEditor.putInt("counter", fullTMD);
 			prefEditor.commit();
 			startActivity(new Intent(LoproTMD.this, FullTMD.class));
+			finish();
 		}
 	}
 }

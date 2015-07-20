@@ -88,6 +88,15 @@ public class FullTMD extends TMDactivity implements OnClickListener{
 		}
 		setHeading(counter);
 	}
+	public void initializePlanogram()
+	{
+		planogram = new String[5];
+		for(int i=0; i<planogram.length; i++)
+		{
+			planogram[i] = "empty";
+		}
+		super.setPlanogram(planogram);
+	}
 	public int[] getButtonResources()
 	{
 		int[] resources = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5,
@@ -116,15 +125,6 @@ public class FullTMD extends TMDactivity implements OnClickListener{
 			break;
 		}
 		return shelfNumber;
-	}
-	public void initializePlanogram()
-	{
-		planogram = new String[5];
-		for(int i=0; i<planogram.length; i++)
-		{
-			planogram[i] = "empty";
-		}
-		super.setPlanogram(planogram);
 	}
 	protected void storePlanogram()
 	{
@@ -166,6 +166,7 @@ public class FullTMD extends TMDactivity implements OnClickListener{
 		else
 		{
 			super.onBackPressed();
+			finish();
 		}
 	}
 	public void setHeading(int number)
@@ -174,4 +175,5 @@ public class FullTMD extends TMDactivity implements OnClickListener{
 		String heading = TITLE +" #" +  number + " of " + fullTMD;
 		header.setText(heading);
 	}
+	
 }
