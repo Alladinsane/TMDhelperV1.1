@@ -3,11 +3,13 @@ package com.example.tmdhelper;
 
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +28,11 @@ public class BrandSelector extends MainActivity implements OnClickListener{
 	int[] button_resources={R.id.add_brands};
 	ArrayList<String> brands = new ArrayList<String>();
 	ArrayAdapter<String> adapt;
-	MyDatabaseAdapter myDatabaseAdapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brand_selector_layout);
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.hide();
+		hideActionBar();
 		ListView selectBrand = (ListView)findViewById(R.id.add_list_view);
 
 		adapt = new ArrayAdapter<String>(
@@ -109,6 +109,8 @@ public class BrandSelector extends MainActivity implements OnClickListener{
 			else
 			{
 			//with user data stored, we proceed to next Activity
+			myDatabaseAdapter = getDatabaseAdapter();
+			loadData(brands);
 			Intent intent = new Intent(BrandSelector.this, DisplaySize.class);
 			intent.putExtra("brands", brands);
 			startActivity(intent);
@@ -127,6 +129,5 @@ public class BrandSelector extends MainActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 
 	}
-
-
+	
 }

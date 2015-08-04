@@ -20,6 +20,8 @@ import android.widget.Toast;
 public class DisplaySize extends MainActivity implements OnClickListener{
 //This Activity will gather user input to determine how many TMDs will be built
 	public static final String TMD_PREFERENCES = "tmdPrefs";
+	int fullTMD;
+	int loproTMD;
 	SharedPreferences tmdPrefs;
 	private EditText fullInput;
 	private EditText loproInput;
@@ -30,8 +32,7 @@ public class DisplaySize extends MainActivity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.display_size_layout);
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.hide();
+		hideActionBar();
 		tmdPrefs = getSharedPreferences(TMD_PREFERENCES, MODE_PRIVATE);
 		myDatabaseAdapter = new MyDatabaseAdapter(this);
 		brands = getIntent().getStringArrayListExtra("brands");
@@ -45,9 +46,6 @@ public class DisplaySize extends MainActivity implements OnClickListener{
 		
 		next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	int fullTMD;
-            	int loproTMD;
-            	
             	
             	if(fullInput.getText().toString().matches(""))//error checking: if user
             		fullTMD=0;                                //entered nothing
@@ -59,21 +57,10 @@ public class DisplaySize extends MainActivity implements OnClickListener{
             	else
             		loproTMD = Integer.parseInt(loproInput.getText().toString());
 
-            	if(fullTMD + loproTMD <= 0){//if no values have been entered
-            		Context context = getApplicationContext();
-            		CharSequence text = "Build must contain at least one TMD.";
-            		int duration = Toast.LENGTH_SHORT;
-
-            		Toast toast = Toast.makeText(context, text, duration);
-            		toast.show();
-            	}
+            	if(userMakesNoSelections())
+            		showBuildMustContainBrandToast();
             	else
-            	{
-            		SharedPreferences.Editor prefEditor = tmdPrefs.edit();
-            		prefEditor.putInt("fullTMD", fullTMD);
-            		prefEditor.putInt("loproTMD", loproTMD);
-            		prefEditor.putInt("counter", 1);
-            		prefEditor.commit();
+            		storeDataInSharedPreferences();
             		
             		//values are stored and
             		//TMD activity is launched
@@ -91,9 +78,8 @@ public class DisplaySize extends MainActivity implements OnClickListener{
             			startActivity(intent);
             		}
             	}
-            }
-		});
-	}
+            });
+		}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -115,7 +101,30 @@ public class DisplaySize extends MainActivity implements OnClickListener{
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	public void showBuildMustContainBrandToast()
+	{
+		Context context = getApplicationContext();
+		CharSequence text = "Build must contain at least one TMD.";
+		int duration = Toast.LENGTH_SHORT;
 
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+	}
+	public boolean userMakesNoSelections()
+	{
+		if(fullTMD + loproTMD <= 0)
+			return true;
+		else
+			return false;
+	}
+	public void storeDataInSharedPreferences()
+	{
+		SharedPreferences.Editor prefEditor = tmdPrefs.edit();
+		prefEditor.putInt("fullTMD", fullTMD);
+		prefEditor.putInt("loproTMD", loproTMD);
+		prefEditor.putInt("counter", 1);
+		prefEditor.commit();
+	}
 	public void onAnimationStart(Animation animation) {
 		// TODO Auto-generated method stub
 		

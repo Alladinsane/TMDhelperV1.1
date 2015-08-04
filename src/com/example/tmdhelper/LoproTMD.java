@@ -1,9 +1,9 @@
 package com.example.tmdhelper;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,15 +12,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 /*This class functions in the same way as FullTMD, except that LoproTMDs have only 4 shelves
  * 
  */
 public class LoproTMD extends TMDactivity implements OnClickListener{
+	int tmdTotal=0, multiple, loproTMD=0, fullTMD=0;
 	public String TMDname="loproTMD";
 	final String TITLE="Low Profile";
 	ArrayList<String> brands = new ArrayList<String>();
@@ -29,25 +28,19 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		super.setTMDname(TMDname);
 		setContentView(R.layout.lopro_tmd);
 		resources = getButtonResources();
-		super.setButtonResources(resources);
-		tmdPrefs = getSharedPreferences(TMD_PREFERENCES, MODE_PRIVATE);
-		myDatabaseAdapter = new MyDatabaseAdapter(this);
+		tmdPrefs = getMySharedPreferences();
+		myDatabaseAdapter = getDatabaseAdapter();
 		brands = getIntent().getStringArrayListExtra("brands");
 		initializePlanogram();
 		super.setBrandsArray(brands);
-		super.resetScreen();
 		
 		if(tmdPrefs.contains("loproTMD"))
 		{
 			loproTMD = tmdPrefs.getInt("loproTMD", 0);
-			super.setLoproTMD(loproTMD);
 		}
 		tmdTotal = loproTMD+fullTMD;
-		super.setSubTotal(loproTMD);
-		super.setTMDtotal(tmdTotal);
 		if(tmdTotal == 1)
 		{
 			Button b = (Button) findViewById(R.id.next_button);
@@ -60,11 +53,27 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 			b.setOnClickListener(this);
 		}
 		counter=tmdPrefs.getInt("counter", 1);
-		if(planogramExists())
+		String thisTMD = TMDname + counter;
+		if(planogramExists(thisTMD))
 		{
-			restorePlanogram(counter);
+			restorePlanogram(thisTMD);
 		}
-		setHeading(counter);
+		setHeading();
+		setContext(LoproTMD.this);
+	}
+	public void initializePlanogram()
+	{
+		planogram = new String[5];
+		for(int i=0; i<planogram.length; i++)
+		{
+			if(!(i==4))
+				planogram[i] = "empty";
+			else
+				planogram[i] = "no shelf";
+
+		}
+		planogram[4] = "no shelf";
+		super.setPlanogram(planogram);
 	}
 	public int[] getButtonResources()
 	{
@@ -72,13 +81,6 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 				R.id.next_button, R.id.checkbox};
 		return resources;
 	}
-	public void setHeading(int number)
-	{
-		TextView header = (TextView) findViewById(R.id.TMDnumber);
-		String heading = this.TITLE +" #" +  number + " of " + loproTMD;
-		header.setText(heading);
-	}
-	
 	public int getShelfNumber(Button b)
 	{
 		int shelfNumber=-1;
@@ -99,28 +101,41 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 		}
 		return shelfNumber;
 	}
-	public void initializePlanogram()
-	{
-		planogram = new String[4];
-		for(int i=0; i<planogram.length; i++)
-		{
-			planogram[i] = "empty";
-		}
-		super.setPlanogram(planogram);
-	}
 	protected void storePlanogram()
 	{
-		String shelf5="no_shelf";
-		super.setShelf5(shelf5);
-		super.storePlanogram();
+		String thisTMD = TMDname + counter;
+		storePlanogram(thisTMD, planogram);
+	}
+	public void setHeading(int number)
+	{
+		TextView header = (TextView) findViewById(R.id.TMDnumber);
+		String heading = this.TITLE +" #" +  number + " of " + loproTMD;
+		header.setText(heading);
 	}
 	protected void nextButtonAction()
 	{
-		int counter=super.getCounter();
 		storePlanogram();
-		resetScreen();
+		Button b = getButtonByID(R.id.next_button);
+		counter++;
+		if(!(counter > loproTMD))
+		{
+			String thisTMD= TMDname + counter;
+			if(counter < loproTMD)
+			{
+				b.setText("Next-->");
 
-		if(counter==loproTMD)
+			}
+			else if(counter==loproTMD)
+			{
+					b.setText("Finish-->");
+			}
+			if(planogramExists(thisTMD))
+				restorePlanogram(thisTMD);
+			else
+				resetScreen();
+			setHeading();
+		}
+		else
 		{
 			storePlanogram();
 			Intent intent = new Intent(LoproTMD.this, Results.class);
@@ -128,22 +143,31 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 			startActivity(intent);
 			finish();
 		}
-		else
-			super.nextButtonAction();
 	}
 	public void onBackPressed() {
 		counter--;
+		String thisTMD = TMDname + counter;
 		if(counter>0)
-			super.restorePlanogram(counter);
+		{
+			restorePlanogram(thisTMD);
+			setHeading(counter);
+		}
 		else
 		{
 			int fullTMD = tmdPrefs.getInt("fullTMD", 0);
-			super.setTMDname("fullTMD");
-			SharedPreferences.Editor prefEditor = tmdPrefs.edit();
-			prefEditor.putInt("counter", fullTMD);
-			prefEditor.commit();
-			startActivity(new Intent(LoproTMD.this, FullTMD.class));
-			finish();
+			if(fullTMD>0)
+			{
+				SharedPreferences.Editor prefEditor = tmdPrefs.edit();
+				prefEditor.putInt("counter", fullTMD);
+				prefEditor.commit();
+				startActivity(new Intent(LoproTMD.this, FullTMD.class));
+				finish();
+			}
+			else
+			{
+				super.onBackPressed();
+				finish();
+			}
 		}
 	}
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -193,5 +217,57 @@ public class LoproTMD extends TMDactivity implements OnClickListener{
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	public void setHeading()
+	{
+		TextView header = (TextView) findViewById(R.id.TMDnumber);
+		String heading = TITLE +" #" +  counter + " of " + loproTMD;
+		header.setText(heading);
+	}
+	public Context getContext()
+	{
+		return LoproTMD.this;
+	}
+	public void executeMultipleTMDs(int multiple)
+	{
+		this.multiple = multiple;
+		new MultipleTMD().execute();
+	}
+	private class MultipleTMD extends AsyncTask <Void, Void, String>
+	{
+		private ProgressDialog dialog;
+		
+		@Override
+		protected void onPreExecute()
+		{
+			dialog = ProgressDialog.show(
+					LoproTMD.this,
+					"Filling Multiple Towers",
+					"Please wait...", 
+					true);
+		}
 
+		@Override
+		protected String doInBackground(Void... params)
+		{
+			Log.d("Mine", "applyMultiplePlanograms(" + multiple + ")");
+			for(int i=1; i<multiple; i++)
+			{
+				storePlanogram();
+				counter++;
+			}
+
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			nextButtonAction();
+			dialog.dismiss();
+		}
+	}
+	public int getMaxValue()
+	{
+		return ((loproTMD-counter)+1);
+	}
 }

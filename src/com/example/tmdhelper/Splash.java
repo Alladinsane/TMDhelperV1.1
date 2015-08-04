@@ -14,36 +14,47 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Splash extends MainActivity {
-	//this activity is just our splash page
-	MyDatabaseAdapter myDatabaseAdapter;
+	//this activity is just our splash page with some background setup
 	Animation fade1, fade2;
+	ImageView logo;
+	TextView title, version;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-		actionBar.hide();
-		ImageView logo = (ImageView) findViewById(R.id.logo);
-		TextView title = (TextView) findViewById(R.id.title);
-		TextView version = (TextView) findViewById(R.id.version);
 		
-		getDatabaseAdapter();
-		myDatabaseAdapter.deleteTMDdatabase();
-		loadData();
+		hideActionBar();
+		
+		findViews();
+		
+		loadSharedPreferences();
+		wipeDatabase();
+		
 		loadAnimations();
 		
+		runAnimations();
+
+		startNextActivityWhenAnimationCompletes();
+	}
+	public void loadAnimations()
+	{
+		fade1 = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+		fade2 = AnimationUtils.loadAnimation(this, R.anim.fade_in2);
+	}
+	public void runAnimations()
+	{
 		try{
-		logo.startAnimation(fade1);//fades in our logo
-		title.startAnimation(fade2);//title and version fade in together
-		version.startAnimation(fade2);
-		}
-		catch(NullPointerException e)
-		{
-			System.out.println("No animations were loaded");
-		}
-
-
-
+			logo.startAnimation(fade1);//fades in our logo
+			title.startAnimation(fade2);//title and version fade in together
+			version.startAnimation(fade2);
+			}
+			catch(NullPointerException e)
+			{
+				System.out.println("No animations were loaded");
+			}
+	}
+	public void startNextActivityWhenAnimationCompletes()
+	{
 		fade2.setAnimationListener(new AnimationListener(){
 			//Once animations have completed, our splash page launches
 			//the main menu activity
@@ -71,20 +82,6 @@ public class Splash extends MainActivity {
 
 			}
 		});
-	}
-	public void loadData()
-	{
-		new Thread(new DataLoader()).start();
-	}
-	public void getDatabaseAdapter()
-	{
-		myDatabaseAdapter = new MyDatabaseAdapter(this);
-		
-	}
-	public void loadAnimations()
-	{
-		fade1 = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-		fade2 = AnimationUtils.loadAnimation(this, R.anim.fade_in2);
 	}
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -118,76 +115,10 @@ public class Splash extends MainActivity {
 		title.clearAnimation();
 		version.clearAnimation();
 	}
-	class DataLoader implements Runnable
+	public void findViews()
 	{
-
-		@Override
-		public void run() {
-			String[] brands = getResources().getStringArray(R.array.brands);
-			for(int i=0; i<brands.length; i++)
-			{
-				String[] product = getArrayByName(brands[i]);
-				//"Empty" should be the first option no matter what brand our user selects
-				createDefaultEntry();
-
-				for(int j=0; j<product.length; j++)
-				{
-					storeProductData(product[j]);
-					continue;
-				}
-				continue;
-			}
-		}
-
-	}
-	public void createDefaultEntry()
-	{
-		//this method creates an entry in the database for the default white, empty condition
-		String empty = getResources().getString(R.string.default_entry);
-		String emptyColor = "@color/white";
-		int emptyCount = 0;
-		int emptyShelf = 0;
-
-		long emptyId = myDatabaseAdapter.insertDataProducts(empty, emptyColor, emptyCount, emptyShelf);
-
-		if(emptyId<0)
-		{
-			Log.d("Mine", "Insert was unsuccessful");
-		}
-		else
-		{
-			Log.d("Mine", "Successfully added " + empty);
-		}
-	}
-	public void storeProductData(String s)
-	{
-		StringTokenizer st = new StringTokenizer(s);
-		while(st.hasMoreTokens())
-		{
-			//unpack info from array store product data 
-			String name = st.nextToken();
-			String color = st.nextToken();
-			int caseCount = Integer.parseInt(st.nextToken());
-			int shelfCount = Integer.parseInt(st.nextToken());
-
-			long id = myDatabaseAdapter.insertDataProducts(name, color, caseCount, shelfCount);
-
-			if(id<0)
-			{
-				Log.d("Mine", "Insert was unsuccessful");
-			}
-			else
-			{
-				Log.d("Mine", "Successfully added " + name);
-			}
-		}
-
-	}
-	public String[] getArrayByName(String name)
-	{
-		int tempID = getResources().getIdentifier(name, "array",
-				"com.example.tmdhelper");
-		String[] product = getResources().getStringArray(tempID);
-		return product;
+		logo = (ImageView) findViewById(R.id.logo);
+		title = (TextView) findViewById(R.id.title);
+		version = (TextView) findViewById(R.id.version);
 	}
 }
